@@ -10,7 +10,7 @@ ODTPrintOn >> printOnDifferent: aStream diffs: aCollection [
 	aStream nextPut: $[.
 	aCollection
 		ifNotNilAndNotEmpty: [ aCollection sorted
-				do: [ :d | 
+				do: [ :d |
 					aStream nextPutAll: index greaseString.
 					aStream nextPutAll: ':'.
 					d printOn: aStream ]
