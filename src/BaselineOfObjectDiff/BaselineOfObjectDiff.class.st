@@ -1,6 +1,6 @@
 Class {
 	#name : #BaselineOfObjectDiff,
-	#superclass : #Object,
+	#superclass : #BaselineOf,
 	#category : #BaselineOfObjectDiff
 }
 
