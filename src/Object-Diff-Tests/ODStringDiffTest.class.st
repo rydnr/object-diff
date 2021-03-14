@@ -8,7 +8,7 @@ Class {
 ODStringDiffTest >> test_identical [
 	| diff value |
 	value := 'a b c'.
-	diff := value diff: value.
+	diff := value odDiff: value.
 	self assert: diff isNotNil.
 	self assert: diff startsAt isNil.
 	self assert: diff match equals: value.
@@ -21,7 +21,7 @@ ODStringDiffTest >> test_identical [
 ODStringDiffTest >> test_printOn_identical [
 	| diff value |
 	value := 'a'.
-	diff := value diff: value.
+	diff := value odDiff: value.
 	self
 		assert: diff greaseString
 		equals: '[''' , value , ''']'
@@ -32,10 +32,8 @@ ODStringDiffTest >> test_printOn_string_string [
 	| diff left right |
 	left := 'aaa'.
 	right := 'aab'.
-	diff := left diff: right.
-	self
-		assert: diff greaseString
-		equals: '[''aaa''~=''aab'']'
+	diff := left odDiff: right.
+	self assert: diff greaseString equals: '''aaa''~=''aab'''
 ]
 
 { #category : #tests }
@@ -43,16 +41,14 @@ ODStringDiffTest >> test_printOn_string_string_completely_different [
 	| diff left right |
 	left := 'acc'.
 	right := 'xyy'.
-	diff := left diff: right.
-	self
-		assert: diff greaseString
-		equals: '[''acc''~=''xyy'']'
+	diff := left odDiff: right.
+	self assert: diff greaseString equals: '''acc''~=''xyy'''
 ]
 
 { #category : #tests }
 ODStringDiffTest >> test_string1_diff_string2 [
 	| diff |
-	diff := 'a b c' diff: 'a b d'.
+	diff := 'a b c' odDiff: 'a b d'.
 	self assert: diff isNotNil.
 	self assert: diff startsAt equals: 5.
 	self assert: diff match equals: 'a b '.
@@ -63,7 +59,7 @@ ODStringDiffTest >> test_string1_diff_string2 [
 { #category : #tests }
 ODStringDiffTest >> test_string_diff_nil [
 	| diff |
-	diff := 'a b c' diff: nil.
+	diff := 'a b c' odDiff: nil.
 	self assert: diff isNotNil.
 	self assert: diff startsAt equals: 1.
 	self assert: diff match equals: ''.
@@ -76,7 +72,7 @@ ODStringDiffTest >> test_string_diff_smallinteger [
 	| diff left right |
 	left := 'a'.
 	right := 1.
-	diff := left diff: right.
+	diff := left odDiff: right.
 	self
 		assert: diff greaseString
 		equals: '(a ByteString(''a'') ~= a SmallInteger(1))'.

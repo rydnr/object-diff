@@ -1,20 +1,20 @@
 Extension { #name : #Array }
 
 { #category : #'*Object-Diff' }
-Array >> diff: aCollection [
+Array >> odDiff: aCollection [
 	^ aCollection
 		ifNil: [ ODArrayDiff left: self right: nil ]
-		ifNotNil: [ :c | c diffArray: self ]
+		ifNotNil: [ :c | c odDiffArray: self ]
 ]
 
 { #category : #'*Object-Diff' }
-Array >> diffArray: aCollection [
-	^ self diffCollection: aCollection withDiffClass: ODArrayDiff
+Array >> odDiffArray: aCollection [
+	^ self odDiffCollection: aCollection withDiffClass: ODArrayDiff
 
 ]
 
 { #category : #'*Object-Diff' }
-Array >> diffCollection: aCollection withDiffClass: aClass [
+Array >> odDiffCollection: aCollection withDiffClass: aClass [
 	| result |
 	result := nil.
 	aCollection
@@ -30,19 +30,19 @@ Array >> diffCollection: aCollection withDiffClass: aClass [
 							otherValue := d at: i.
 							selfValue = otherValue
 								ifTrue: [ result addMatch: selfValue at: i ]
-								ifFalse: [ result addDiff: (otherValue diff: selfValue) at: i ] ]
-						ifFalse: [ selfValue ifNotNil: [ :sv | result addDiff: (sv diff: nil) at: i ] ] ] ].
+								ifFalse: [ result addDiff: (otherValue odDiff: selfValue) at: i ] ]
+						ifFalse: [ selfValue ifNotNil: [ :sv | result addDiff: (sv odDiff: nil) at: i ] ] ] ].
 	^ result
 ]
 
 { #category : #'*Object-Diff' }
-Array >> diffOrderedCollection: aCollection [
-	^ self diffCollection: aCollection withDiffClass: ODOrderedCollectionDiff
+Array >> odDiffOrderedCollection: aCollection [
+	^ self odDiffCollection: aCollection withDiffClass: ODOrderedCollectionDiff
 
 ]
 
 { #category : #'*Object-Diff' }
-Array >> diffString: aString [
+Array >> odDiffString: aString [
 	^ aString
 		ifNil: [ ODArrayDiff left: self right: nil ]
 		ifNotNil: [ :c | ODArrayDiff left: aString right: self ]

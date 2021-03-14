@@ -4,32 +4,27 @@ Trait {
 }
 
 { #category : #printing }
-ODTPrintOn >> printOnDifferent: aStream diffs: aCollection [
-	| index |
-	index := 1.
+ODTPrintOn >> printOnDifferent: aStream diffs: aDict [
 	aStream nextPut: $[.
-	aCollection
-		ifNotNilAndNotEmpty: [ aCollection sorted
-				do: [ :d |
-					aStream nextPutAll: index greaseString.
-					aStream nextPutAll: ':'.
-					d printOn: aStream ]
-				separatedBy: [ aStream nextPutAll: ' '. index := index + 1 ] ].
+	aDict
+		ifNotNilAndNotEmpty: [ aDict associations sorted
+				do: [ :assoc | 
+					aStream nextPutAll: assoc key greaseString.
+					aStream nextPut: $:.
+					assoc value printOn: aStream ]
+				separatedBy: [ aStream nextPut: Character space ] ].
 	aStream nextPut: $]
 ]
 
 { #category : #printing }
-ODTPrintOn >> printOnIdentical: aStream matches: aCollection [
-	| index |
-	index := 1.
+ODTPrintOn >> printOnIdentical: aStream matches: aDict [
 	aStream nextPut: $[.
-	aCollection
-		ifNotNilAndNotEmpty: [ aCollection
-				do: [ :d | 
-					aStream nextPutAll: index greaseString.
-					aStream nextPutAll: ':'.
-					d printOn: aStream ]
-				separatedBy: [ aStream nextPutAll: ' '.
-					index := index + 1 ] ].
+	aDict
+		ifNotNilAndNotEmpty: [ aDict keys sorted
+				do: [ :k | 
+					k printOn: aStream.
+					aStream nextPut: $:.
+					(aDict at: k) printOn: aStream ]
+				separatedBy: [ aStream nextPut: Character space ] ].
 	aStream nextPut: $]
 ]

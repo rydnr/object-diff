@@ -1,18 +1,18 @@
 Extension { #name : #String }
 
 { #category : #'*Object-Diff' }
-String >> diff: aString [
+String >> odDiff: aString [
 	^ aString
 		ifNil: [ ODStringDiff
 				left: self
 				right: nil
 				startsAt: 1
 				match: '' ]
-		ifNotNil: [ :s | s diffString: self ]
+		ifNotNil: [ :s | s odDiffString: self ]
 ]
 
 { #category : #'*Object-Diff' }
-String >> diffDictionary: aDictionary [
+String >> odDiffDictionary: aDictionary [
 	| result |
 	result := ODDictionaryDiff left: aDictionary right: self.
 	result
@@ -27,7 +27,7 @@ String >> diffDictionary: aDictionary [
 ]
 
 { #category : #'*Object-Diff' }
-String >> diffString: aString [
+String >> odDiffString: aString [
 	| result |
 	result := nil.
 	aString
@@ -61,4 +61,9 @@ String >> diffString: aString [
 								startsAt: nil
 								match: self ] ] ].
 	^ result
+]
+
+{ #category : #'*Object-Diff' }
+String >> odPrintDiffOn: aStream [
+	^ self printOn: aStream
 ]

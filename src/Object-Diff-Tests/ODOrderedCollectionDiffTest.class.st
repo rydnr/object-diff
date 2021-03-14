@@ -8,7 +8,7 @@ Class {
 ODOrderedCollectionDiffTest >> test_diff_nil [
 	| diff left |
 	left := OrderedCollection with: 'a' with: 'b'.
-	diff := left diff: nil.
+	diff := left odDiff: nil.
 	self assert: diff isNotNil.
 	self assert: diff matches isEmpty
 ]
@@ -18,14 +18,14 @@ ODOrderedCollectionDiffTest >> test_diff_partially_matching_orderedcollections [
 	| diff left right |
 	left := OrderedCollection with: 'a' with: 'b'.
 	right := OrderedCollection with: 'a' with: 'c'.
-	diff := left diff: right.
+	diff := left odDiff: right.
 	self assert: diff isNotNil.
 	self assert: diff matches isNotEmpty.
 	self assert: diff matches size equals: 1.
-	self assert: diff matches first equals: 'a'.
+	self assert: (diff matches at: 1) equals: 'a'.
 	self assert: diff diffs isNotEmpty.
 	self assert: diff diffs size equals: 1.
-	self assert: diff diffs first equals: ('b' diff: 'c')
+	self assert: (diff diffs at: 2) equals: ('b' odDiff: 'c')
 ]
 
 { #category : #tests }
@@ -33,12 +33,12 @@ ODOrderedCollectionDiffTest >> test_identical [
 	| diff left right |
 	left := OrderedCollection with: 'a' with: 'b'.
 	right := OrderedCollection with: 'a' with: 'b'.
-	diff := left diff: right.
+	diff := left odDiff: right.
 	self assert: diff isNotNil.
 	self assert: diff matches isNotEmpty.
 	self assert: diff matches size equals: 2.
-	self assert: diff matches first equals: 'a'.
-	self assert: diff matches second equals: 'b'.
+	self assert: (diff matches at: 1) equals: 'a'.
+	self assert: (diff matches at: 2) equals: 'b'.
 	self assert: diff diffs isEmpty.
 	self assert: diff identical
 ]
@@ -47,7 +47,7 @@ ODOrderedCollectionDiffTest >> test_identical [
 ODOrderedCollectionDiffTest >> test_printOn_identical [
 	| diff value |
 	value := OrderedCollection with: 'a' with: 'b'.
-	diff := value diff: value.
+	diff := value odDiff: value.
 	self assert: diff isNotNil.
 	self
 		assert: diff greaseString

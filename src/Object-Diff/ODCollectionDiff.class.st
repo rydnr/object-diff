@@ -13,11 +13,6 @@ Class {
 	#category : #'Object-Diff'
 }
 
-{ #category : #meta }
-ODCollectionDiff class >> diffCollectionClass [
-	^ OrderedCollection
-]
-
 { #category : #'instance creation' }
 ODCollectionDiff class >> left: leftCollection right: rightCollection [
 	| result |
@@ -37,21 +32,20 @@ ODCollectionDiff >> = anObject [
 ]
 
 { #category : #api }
-ODCollectionDiff >> addDiff: anObject at: position [
-	(position > self diffs size) ifTrue: [ self diffs add: anObject ] ifFalse: [ 
-	self diffs at: position put: anObject ]
+ODCollectionDiff >> addDiff: anObject at: key [
+	 self diffs at: key put: anObject
 ]
 
 { #category : #api }
-ODCollectionDiff >> addMatch: anObject at: position [
-	position > self matches size
-		ifTrue: [ self matches add: anObject ]
-		ifFalse: [ self matches at: position put: anObject ]
+ODCollectionDiff >> addMatch: anObject at: key [ 
+	self matches at: key put: anObject
 ]
 
 { #category : #accessing }
 ODCollectionDiff >> diffs [
-	^ diffs ifNil: [ self diffs: self class diffCollectionClass new. diffs ]
+	^ diffs
+		ifNil: [ self diffs: Dictionary new.
+			diffs ]
 ]
 
 { #category : #accessing }
@@ -84,13 +78,13 @@ ODCollectionDiff >> left: anObject [
 { #category : #comparing }
 ODCollectionDiff >> lessOrEqualThanString: aString [
 	self diffs ifEmpty: [ ^ false ].
-	^ aString <= self diffs first
+	^ self diffs lessOrEqualThanString: aString
 ]
 
 { #category : #api }
 ODCollectionDiff >> matches [
 	^ matches
-		ifNil: [ self matches: self class diffCollectionClass new.
+		ifNil: [ self matches: Dictionary new.
 			matches ]
 ]
 

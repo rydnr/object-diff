@@ -1,7 +1,7 @@
 Extension { #name : #Number }
 
 { #category : #'*Object-Diff' }
-Number >> diffString: aString [
+Number >> odDiffString: aString [
 	| result |
 	result := nil.
 	aString

@@ -7,6 +7,20 @@ Class {
 { #category : #tests }
 ODArrayDiffTest >> test_array_with_dictionary_diff_array_with_string [
 	| diff left right nestedLeft nestedRight |
+	left := Array new: 1.
+	left atWrap: 1 put: (Dictionary with: 'd' -> 'D' with: 'e' -> 'E').
+	right := #('x').
+	diff := left odDiff: right.
+	"[1:['d'->'D' 'e'->'E']]"
+	"[1:'x']"
+	self
+		assert: diff greaseString
+		equals: '[1:[''d''->''D'' ''e''->''E'']~=''x'']'
+]
+
+{ #category : #tests }
+ODArrayDiffTest >> test_array_with_dictionary_diff_array_with_string_2 [
+	| diff left right nestedLeft nestedRight |
 	left := Array new: 2.
 	left atWrap: 1 put: 'a'.
 	nestedLeft := Array new: 2.
@@ -21,12 +35,12 @@ ODArrayDiffTest >> test_array_with_dictionary_diff_array_with_string [
 	nestedRight atWrap: 1 put: 'x'.
 	nestedRight atWrap: 2 put: '2'.
 	right atWrap: 2 put: nestedRight.
-	diff := left diff: right.
+	diff := left odDiff: right.
 	"[1:'a' 2:[1:'1' 2:['d'->'D' 'e'->'E']]]"
 	"[1:'a' 2:[1:'x' 2:'2']]"
 	self
 		assert: diff greaseString
-		equals: '[2:[1:''1'' 2:[''d''->''D'' ''e''->''E'']]~=[1:''x'' 2:''2'']]'
+		equals: '[2:[1:''1''~=''x'' 2:[''d''->''D'' ''e''->''E'']~=''2'']]'
 ]
 
 { #category : #tests }
@@ -35,7 +49,7 @@ ODArrayDiffTest >> test_diff_nil [
 	left := Array new: 2.
 	left atWrap: 1 put: 'a'.
 	left atWrap: 2 put: 'b'.
-	diff := left diff: nil.
+	diff := left odDiff: nil.
 	self assert: diff isNotNil.
 	self assert: diff matches isEmpty
 ]
@@ -49,14 +63,14 @@ ODArrayDiffTest >> test_diff_partially_matching_arrays [
 	right := Array new: 2.
 	right atWrap: 1 put: 'a'.
 	right atWrap: 2 put: 'c'.
-	diff := left diff: right.
+	diff := left odDiff: right.
 	self assert: diff isNotNil.
 	self assert: diff matches isNotEmpty.
 	self assert: diff matches size equals: 1.
-	self assert: diff matches first equals: 'a'.
+	self assert: (diff matches at: 1) equals: 'a'.
 	self assert: diff diffs isNotEmpty.
 	self assert: diff diffs size equals: 1.
-	self assert: diff diffs first equals: ('b' diff: 'c')
+	self assert: (diff diffs at: 2) equals: ('b' odDiff: 'c')
 ]
 
 { #category : #tests }
@@ -70,14 +84,14 @@ ODArrayDiffTest >> test_diff_with_nested_arrays [
 	right atWrap: 1 put: 'a'.
 	nestedRight := #('x' '2').
 	right atWrap: 2 put: nestedRight.
-	diff := left diff: right.
+	diff := left odDiff: right.
 	self assert: diff isNotNil.
 	self assert: diff matches isNotEmpty.
 	self assert: diff matches size equals: 1.
-	self assert: diff matches first equals: 'a'.
+	self assert: (diff matches at: 1) equals: 'a'.
 	self assert: diff diffs isNotEmpty.
 	self assert: diff diffs size equals: 1.
-	self assert: diff diffs first equals: (nestedLeft diff: nestedRight)
+	self assert: (diff diffs at: 2) equals: (nestedLeft odDiff: nestedRight)
 ]
 
 { #category : #tests }
@@ -89,12 +103,12 @@ ODArrayDiffTest >> test_identical [
 	right := Array new: 2.
 	right atWrap: 1 put: 'a'.
 	right atWrap: 2 put: 'b'.
-	diff := left diff: right.
+	diff := left odDiff: right.
 	self assert: diff isNotNil.
 	self assert: diff matches isNotEmpty.
 	self assert: diff matches size equals: 2.
-	self assert: diff matches first equals: 'a'.
-	self assert: diff matches second equals: 'b'.
+	self assert: (diff matches at: 1) equals: 'a'.
+	self assert: (diff matches at: 2) equals: 'b'.
 	self assert: diff diffs isEmpty.
 	self assert: diff identical
 ]
@@ -104,15 +118,15 @@ ODArrayDiffTest >> test_printOn_different [
 	| diff left right |
 	left := #('a').
 	right := #('b').
-	diff := left diff: right.
-	self assert: diff greaseString equals: '[1:[''a''~=''b'']]'
+	diff := left odDiff: right.
+	self assert: diff greaseString equals: '[1:''a''~=''b'']'
 ]
 
 { #category : #tests }
 ODArrayDiffTest >> test_printOn_identical [
 	| diff value |
 	value := #('a' 'b').
-	diff := value diff: value.
+	diff := value odDiff: value.
 	self assert: diff isNotNil.
 	self assert: diff greaseString equals: '[1:''a'' 2:''b'']'
 ]
@@ -134,14 +148,14 @@ ODArrayDiffTest >> test_with_nested_dictionaries [
 	nestedRight atWrap: 1 put: 'x'.
 	nestedRight atWrap: 2 put: '2'.
 	right atWrap: 2 put: nestedRight.
-	diff := left diff: right.
+	diff := left odDiff: right.
 	self assert: diff isNotNil.
 	self assert: diff matches isNotEmpty.
 	self assert: diff matches size equals: 1.
-	self assert: diff matches first equals: 'a'.
+	self assert: (diff matches at: 1) equals: 'a'.
 	self assert: diff diffs isNotEmpty.
 	self assert: diff diffs size equals: 1.
-	self assert: diff diffs first equals: (nestedLeft diff: nestedRight).
-	self assert: diff diffs first left equals: nestedLeft.
-	self assert: diff diffs first right equals: nestedRight
+	self assert: (diff diffs at: 2) equals: (nestedLeft odDiff: nestedRight).
+	self assert: (diff diffs at: 2) left equals: nestedLeft.
+	self assert: (diff diffs at: 2) right equals: nestedRight
 ]

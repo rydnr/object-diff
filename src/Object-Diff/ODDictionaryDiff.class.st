@@ -4,11 +4,6 @@ Class {
 	#category : #'Object-Diff'
 }
 
-{ #category : #meta }
-ODDictionaryDiff class >> diffCollectionClass [
-	^ Dictionary
-]
-
 { #category : #'instance creation' }
 ODDictionaryDiff class >> left: leftDict right: rightDict [
 	| result |
@@ -19,30 +14,12 @@ ODDictionaryDiff class >> left: leftDict right: rightDict [
 	^ result
 ]
 
-{ #category : #api }
-ODDictionaryDiff >> addDiff: anObject at: positionOrKey [
-	self diffs at: positionOrKey put: anObject
-]
-
-{ #category : #api }
-ODDictionaryDiff >> addMatch: anObject at: key [
-	self matches at: key put: anObject
-]
-
-{ #category : #api }
+{ #category : #printing }
 ODDictionaryDiff >> printOnDifferent: aStream diffs: aCollection [
-	| index |
-	index := 1.
-	aStream nextPut: $[.
 	aCollection
 		ifNotNilAndNotEmpty: [ aCollection sorted
-				do: [ :d | 
-					aStream nextPutAll: index greaseString.
-					aStream nextPutAll: ':'.
-					d printOn: aStream ]
-				separatedBy: [ aStream nextPutAll: ' '.
-					index := index + 1 ] ].
-	aStream nextPut: $]
+				do: [ :d | d printOn: aStream ]
+				separatedBy: [ aStream nextPut: Character space ] ]
 ]
 
 { #category : #printing }
@@ -50,9 +27,10 @@ ODDictionaryDiff >> printOnIdentical: aStream matches: aDict [
 	aStream nextPut: $[.
 	aDict
 		ifNotNilAndNotEmpty: [ aDict keys sorted
-				do: [ :k | k printOn: aStream.
+				do: [ :k | 
+					k printOn: aStream.
 					aStream nextPutAll: '->'.
 					(aDict at: k) printOn: aStream ]
-				separatedBy: [ aStream nextPutAll: ' ' ] ].
+				separatedBy: [ aStream nextPut: Character space ] ].
 	aStream nextPut: $]
 ]

@@ -1,15 +1,21 @@
 Extension { #name : #Dictionary }
 
 { #category : #'*Object-Diff' }
-Dictionary >> diff: aCollection [
-	^ aCollection
-		ifNil:
-			[ ODDictionaryDiff left: self right: nil ]
-		ifNotNil: [ :c | c diffDictionary: self ]
+Dictionary >> lessOrEqualThanString: aString [ 
+	self ifEmpty: [ ^ false ].
+	^ self associations first key greaseString <= aString
 ]
 
 { #category : #'*Object-Diff' }
-Dictionary >> diffDictionary: aDictionary [
+Dictionary >> odDiff: aCollection [
+	^ aCollection
+		ifNil:
+			[ ODDictionaryDiff left: self right: nil ]
+		ifNotNil: [ :c | c odDiffDictionary: self ]
+]
+
+{ #category : #'*Object-Diff' }
+Dictionary >> odDiffDictionary: aDictionary [
 	| result |
 	result := nil.
 	aDictionary
@@ -25,8 +31,17 @@ Dictionary >> diffDictionary: aDictionary [
 						ifPresent: [ :otherValue | 
 							selfValue = otherValue
 								ifTrue: [ result addMatch: selfValue at: k ]
-								ifFalse: [ result addDiff: (otherValue diff: selfValue) at: k ] ]
+								ifFalse: [ result addDiff: (otherValue odDiff: selfValue) at: k ] ]
 						ifAbsent: [ result ifNil: [ result := ODDictionaryDiff left: d right: self ].
-							result addDiff: (selfValue diff: nil) at: k ] ] ].
+							result addDiff: (selfValue odDiff: nil) at: k ] ] ].
 	^ result
+]
+
+{ #category : #'*Object-Diff' }
+Dictionary >> odPrintDiffOn: aStream [
+	aStream nextPut: $[.
+	self associations
+		do: [ :assoc | assoc printOn: aStream ]
+		separatedBy: [ aStream nextPut: Character space ].
+		aStream nextPut: $]
 ]

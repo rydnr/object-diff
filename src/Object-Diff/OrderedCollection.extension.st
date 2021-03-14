@@ -1,14 +1,14 @@
 Extension { #name : #OrderedCollection }
 
 { #category : #'*Object-Diff' }
-OrderedCollection >> diff: aCollection [
+OrderedCollection >> odDiff: aCollection [
 	^ aCollection
 		ifNil: [ ODOrderedCollectionDiff left: self right: nil ]
-		ifNotNil: [ :c | c diffOrderedCollection: self ]
+		ifNotNil: [ :c | c odDiffOrderedCollection: self ]
 ]
 
 { #category : #'*Object-Diff' }
-OrderedCollection >> diffOrderedCollection: aCollection [
+OrderedCollection >> odDiffOrderedCollection: aCollection [
 	| result |
 	result := nil.
 	aCollection
@@ -23,10 +23,10 @@ OrderedCollection >> diffOrderedCollection: aCollection [
 						ifTrue: [ | otherValue |
 							otherValue := d at: i.
 							selfValue = otherValue
-								ifTrue: [ result addMatch: otherValue at: i]
-								ifFalse: [ result addDiff: (otherValue diff: selfValue) at: i ] ]
+								ifTrue: [ result addMatch: otherValue at: i ]
+								ifFalse: [ result addDiff: (otherValue odDiff: selfValue) at: i ] ]
 						ifFalse: [ result
 								ifNil: [ result := ODOrderedCollectionDiff left: d right: self ].
-							result addDiff: (selfValue diff: nil) at: i ] ] ].
+							result addDiff: (selfValue odDiff: nil) at: i ] ] ].
 	^ result
 ]
