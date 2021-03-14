@@ -83,15 +83,22 @@ StringDiff >> match: aString [
 { #category : #printing }
 StringDiff >> printOn: aStream [
 	| addDistinct |
-	addDistinct := false.
-	self match
-		ifNotNil: [ :m | m ifNotEmpty: [ m printNameOn: aStream.
-			aStream nextPut: $(.
-			m printOn: aStream.
-			aStream nextPut: $) ] ].
-	aStream nextPut: $(.
 	self identical
-		ifFalse: [ self leftDiff
+		ifTrue: [ | aux |
+			aStream nextPutAll: 'two '.
+			aux := String streamContents: [ :s | self match printNameOn: s ].
+			aStream nextPutAll: (aux copyFrom: 3 to: aux size).
+			aStream nextPutAll: 's('.
+			self match printOn: aStream ]
+		ifFalse: [ self match
+				ifNotNil: [ :m | 
+					m
+						ifNotEmpty: [ m printNameOn: aStream.
+							aStream nextPut: $(.
+							m printOn: aStream.
+							aStream nextPut: $) ] ].
+			aStream nextPut: $(.
+			self leftDiff
 				ifNotNil: [ :l | 
 					l printNameOn: aStream.
 					aStream nextPut: $(.

@@ -93,34 +93,38 @@ CollectionDiff >> printOn: aStream [
 	| addSpace |
 	addSpace := false.
 	self identical
-		ifTrue: [ aStream
-				nextPutAll: 'Exact match between ';
-				nextPutAll: self left greaseString;
-				nextPutAll: ' and ';
-				nextPutAll: self right greaseString ]
-		ifFalse: [ 
-			self valueDiffs
+		ifTrue: [ | aux |
+			aStream nextPutAll: 'two'.
+			aux := String streamContents: [ :s | self left printNameOn: s ].
+			aStream nextPutAll: (aux copyFrom: 3 to: aux size).
+			aStream nextPutAll: 's('.
+			self left
+				do: [ :item | item printOn: aStream ]
+				separatedBy: [ aStream nextPutAll: ' ' ].
+			aStream nextPut: $) ]
+		ifFalse: [ self valueDiffs
 				ifNotNilAndNotEmpty: [ aStream
 						nextPutAll: 'Value diffs: ';
 						nextPutAll: self valueDiffs greaseString;
 						nextPut: $. ].
-		
 			self positionDiffs
 				ifNotNilAndNotEmpty: [ addSpace
-				ifTrue: [ aStream nextPutAll: ' '.
-					addSpace := false ]. aStream
+						ifTrue: [ aStream nextPutAll: ' '.
+							addSpace := false ].
+					aStream
 						nextPutAll: 'Position diffs: ';
 						nextPutAll: self positionDiffs greaseString;
 						nextPut: $..
-					addSpace := true. ].
-				self matches
+					addSpace := true ].
+			self matches
 				ifNotNilAndNotEmpty: [ addSpace
-				ifTrue: [ aStream nextPutAll: ' '.
-					addSpace := false ]. aStream
+						ifTrue: [ aStream nextPutAll: ' '.
+							addSpace := false ].
+					aStream
 						nextPutAll: 'Matches: ';
 						nextPutAll: self matches greaseString;
 						nextPut: $..
-					addSpace := true ]. ]
+					addSpace := true ] ]
 ]
 
 { #category : #accessing }

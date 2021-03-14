@@ -98,12 +98,15 @@ DictionaryDiff >> printOn: aStream [
 	| addSpace |
 	addSpace := false.
 	self identical
-		ifTrue: [ aStream
-				nextPutAll: 'Exact match between ';
-				nextPutAll: self left greaseString;
-				nextPutAll: ' and ';
-				nextPutAll: self right greaseString;
-				nextPut: $. ]
+		ifTrue: [ | aux |
+			aStream nextPutAll: 'two '.
+			aux := String streamContents: [ :s | self left printNameOn: s ].
+			aStream nextPutAll: (aux copyFrom: 3 to: aux size - 1).
+			aStream nextPutAll: 'ies('.
+			self left associations sorted
+				do: [ :item | item printOn: aStream ]
+				separatedBy: [ aStream nextPutAll: ' ' ].
+			aStream nextPut: $) ]
 		ifFalse: [ self keyDiffs
 				ifNotNilAndNotEmpty: [ aStream
 						nextPut: $(;
@@ -123,8 +126,7 @@ DictionaryDiff >> printOn: aStream [
 				ifNotNilAndNotEmpty: [ addSpace
 						ifTrue: [ aStream nextPutAll: ' '.
 							addSpace := false ].
-					aStream
-						nextPutAll: self matches greaseString ] ]
+					aStream nextPutAll: self matches greaseString ] ]
 ]
 
 { #category : #accessing }

@@ -5,7 +5,18 @@ Class {
 }
 
 { #category : #tests }
-DictionaryDiffTest >> testDictionaryDiff [
+DictionaryDiffTest >> test_diff_nil [
+	| diff left |
+	left := Dictionary new.
+	left at: 'firstKey' put: 'a'.
+	left at: 'secondKey' put: 'b'.
+	diff := left diff: nil.
+	self assert: diff isNotNil.
+	self assert: diff matches isEmpty
+]
+
+{ #category : #tests }
+DictionaryDiffTest >> test_diff_partially_matching_dictionaries [
 	| diff left right |
 	left := Dictionary new.
 	left at: 'firstKey' put: 'a'.
@@ -28,15 +39,12 @@ DictionaryDiffTest >> testDictionaryDiff [
 ]
 
 { #category : #tests }
-DictionaryDiffTest >> testDictionaryDiff_identical [
-	| diff left right |
-	left := Dictionary new.
-	left at: 'firstKey' put: 'a'.
-	left at: 'secondKey' put: 'b'.
-	right := Dictionary new.
-	right at: 'firstKey' put: 'a'.
-	right at: 'secondKey' put: 'b'.
-	diff := left diff: right.
+DictionaryDiffTest >> test_identical [
+	| diff value |
+	value := Dictionary new.
+	value at: 'firstKey' put: 'a'.
+	value at: 'secondKey' put: 'b'.
+	diff := value diff: value.
 	self assert: diff isNotNil.
 	self assert: diff keyDiffs size equals: 0.
 	self assert: diff valueDiffs size equals: 0.
@@ -47,16 +55,17 @@ DictionaryDiffTest >> testDictionaryDiff_identical [
 	self
 		assert: (diff matches select: [ :m | m includesKey: 'secondKey' ]) first
 		equals: (Dictionary with: 'secondKey' -> 'b').
-		self assert: diff identical
+	self assert: diff identical
 ]
 
 { #category : #tests }
-DictionaryDiffTest >> testDictionaryDiff_with_nil_arguments [
-	| diff left |
-	left := Dictionary new.
-	left at: 'firstKey' put: 'a'.
-	left at: 'secondKey' put: 'b'.
-	diff := left diff: nil.
-	self assert: diff isNotNil.
-	self assert: diff matches isEmpty
+DictionaryDiffTest >> test_printOn_identical [
+	| diff value |
+	value := Dictionary new.
+	value at: 'firstKey' put: 'a'.
+	value at: 'secondKey' put: 'b'.
+	diff := value diff: value.
+	self
+		assert: diff greaseString
+		equals: 'two Dictionaries(''firstKey''->''a'' ''secondKey''->''b'')'
 ]
