@@ -5,17 +5,17 @@ Number >> diffString: aString [
 	| result |
 	result := nil.
 	aString
-		ifNil: [ result := NumberDiff
+		ifNil: [ result := ODNumberDiff
 				left: nil
 				right: self
 				match: nil ]
 		ifNotNil: [ :s | 
 			result := self greaseString = aString
-				ifTrue: [ NumberDiff
+				ifTrue: [ ODNumberDiff
 						left: aString
 						right: self
 						match: self ]
-				ifFalse: [ NumberDiff
+				ifFalse: [ ODNumberDiff
 						left: aString
 						right: self
 						match: nil ] ].

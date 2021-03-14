@@ -1,11 +1,11 @@
 Class {
-	#name : #StringDiffTest,
+	#name : #ODStringDiffTest,
 	#superclass : #TestCase,
 	#category : #'Object-Diff-Tests'
 }
 
 { #category : #tests }
-StringDiffTest >> test_identical [
+ODStringDiffTest >> test_identical [
 	| diff value |
 	value := 'a b c'.
 	diff := value diff: value.
@@ -18,39 +18,39 @@ StringDiffTest >> test_identical [
 ]
 
 { #category : #tests }
-StringDiffTest >> test_printOn_identical [
+ODStringDiffTest >> test_printOn_identical [
 	| diff value |
 	value := 'a'.
 	diff := value diff: value.
 	self
 		assert: diff greaseString
-		equals: 'two ByteStrings(''' , value , ''')'
+		equals: '[''' , value , ''']'
 ]
 
 { #category : #tests }
-StringDiffTest >> test_printOn_string_string [
+ODStringDiffTest >> test_printOn_string_string [
 	| diff left right |
 	left := 'aaa'.
 	right := 'aab'.
 	diff := left diff: right.
 	self
 		assert: diff greaseString
-		equals: 'a ByteString(''aa'')(a ByteString(''a'') ~= a ByteString(''b''))'
+		equals: '[''aaa''~=''aab'']'
 ]
 
 { #category : #tests }
-StringDiffTest >> test_printOn_string_string_completely_different [
+ODStringDiffTest >> test_printOn_string_string_completely_different [
 	| diff left right |
 	left := 'acc'.
 	right := 'xyy'.
 	diff := left diff: right.
 	self
 		assert: diff greaseString
-		equals: '(a ByteString(''acc'') ~= a ByteString(''xyy''))'
+		equals: '[''acc''~=''xyy'']'
 ]
 
 { #category : #tests }
-StringDiffTest >> test_string1_diff_string2 [
+ODStringDiffTest >> test_string1_diff_string2 [
 	| diff |
 	diff := 'a b c' diff: 'a b d'.
 	self assert: diff isNotNil.
@@ -61,7 +61,7 @@ StringDiffTest >> test_string1_diff_string2 [
 ]
 
 { #category : #tests }
-StringDiffTest >> test_string_diff_nil [
+ODStringDiffTest >> test_string_diff_nil [
 	| diff |
 	diff := 'a b c' diff: nil.
 	self assert: diff isNotNil.
@@ -72,7 +72,7 @@ StringDiffTest >> test_string_diff_nil [
 ]
 
 { #category : #tests }
-StringDiffTest >> test_string_diff_smallinteger [
+ODStringDiffTest >> test_string_diff_smallinteger [
 	| diff left right |
 	left := 'a'.
 	right := 1.

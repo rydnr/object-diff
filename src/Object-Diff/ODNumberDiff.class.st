@@ -1,5 +1,5 @@
 Class {
-	#name : #NumberDiff,
+	#name : #ODNumberDiff,
 	#superclass : #Object,
 	#instVars : [
 		'left',
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-NumberDiff class >> left: left right: right match: aString [
+ODNumberDiff class >> left: left right: right match: aString [
 	| result |
 	result := self new.
 	result
@@ -22,39 +22,39 @@ NumberDiff class >> left: left right: right match: aString [
 ]
 
 { #category : #accessing }
-NumberDiff >> identical [
+ODNumberDiff >> identical [
 	^ identical
 		ifNil: [ self identical: left = right.
 			identical ]
 ]
 
 { #category : #accessing }
-NumberDiff >> identical: aBoolean [
+ODNumberDiff >> identical: aBoolean [
 	identical := aBoolean
 ]
 
 { #category : #accessing }
-NumberDiff >> left [
+ODNumberDiff >> left [
 	^ left
 ]
 
 { #category : #accessing }
-NumberDiff >> left: anObject [
+ODNumberDiff >> left: anObject [
 	left := anObject
 ]
 
 { #category : #accessing }
-NumberDiff >> match [
+ODNumberDiff >> match [
 	^ match
 ]
 
 { #category : #accessing }
-NumberDiff >> match: anObject [
+ODNumberDiff >> match: anObject [
 	match := anObject
 ]
 
 { #category : #printing }
-NumberDiff >> printOn: aStream [
+ODNumberDiff >> printOn: aStream [
 	| addDistinct |
 	addDistinct := false.
 	self match
@@ -85,11 +85,11 @@ NumberDiff >> printOn: aStream [
 ]
 
 { #category : #accessing }
-NumberDiff >> right [
+ODNumberDiff >> right [
 	^ right
 ]
 
 { #category : #accessing }
-NumberDiff >> right: anObject [
+ODNumberDiff >> right: anObject [
 	right := anObject
 ]

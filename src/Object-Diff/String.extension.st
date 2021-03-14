@@ -3,7 +3,7 @@ Extension { #name : #String }
 { #category : #'*Object-Diff' }
 String >> diff: aString [
 	^ aString
-		ifNil: [ StringDiff
+		ifNil: [ ODStringDiff
 				left: self
 				right: nil
 				startsAt: 1
@@ -13,7 +13,17 @@ String >> diff: aString [
 
 { #category : #'*Object-Diff' }
 String >> diffDictionary: aDictionary [
-	^ DictionaryDiff left: aDictionary right: self
+	| result |
+	result := ODDictionaryDiff left: aDictionary right: self.
+	result
+		addDiff:
+			(ODStringDiff
+				left: aDictionary
+				right: self
+				startsAt: 1
+				match: nil)
+		at: 1.
+	^ result
 ]
 
 { #category : #'*Object-Diff' }
@@ -21,7 +31,7 @@ String >> diffString: aString [
 	| result |
 	result := nil.
 	aString
-		ifNil: [ result := StringDiff
+		ifNil: [ result := ODStringDiff
 				left: nil
 				right: self
 				startsAt: 1
@@ -33,19 +43,19 @@ String >> diffString: aString [
 						ifNil: [ s size >= i
 								ifTrue: [ c ~= (s at: i)
 										ifTrue: [ result := i = 1
-												ifTrue: [ StringDiff
+												ifTrue: [ ODStringDiff
 														left: s
 														right: self
 														startsAt: i
 														match: nil ]
-												ifFalse: [ StringDiff
+												ifFalse: [ ODStringDiff
 														left: s
 														right: self
 														startsAt: i
 														match: (s copyFrom: 1 to: i - 1) ] ] ] ] ].
 			result
 				ifNil: [ result := self size = s size
-						ifTrue: [ StringDiff
+						ifTrue: [ ODStringDiff
 								left: s
 								right: self
 								startsAt: nil

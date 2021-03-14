@@ -1,11 +1,11 @@
 Class {
-	#name : #OrderedCollectionDiff,
-	#superclass : #CollectionDiff,
+	#name : #ODOrderedCollectionDiff,
+	#superclass : #ODCollectionDiff,
 	#category : #'Object-Diff'
 }
 
 { #category : #'instance creation' }
-OrderedCollectionDiff class >> left: left right: right [
+ODOrderedCollectionDiff class >> left: left right: right [
 	| result |
 	result := self new.
 	result left: left; right: right.

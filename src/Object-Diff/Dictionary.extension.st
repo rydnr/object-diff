@@ -4,7 +4,7 @@ Extension { #name : #Dictionary }
 Dictionary >> diff: aCollection [
 	^ aCollection
 		ifNil:
-			[ DictionaryDiff left: self right: nil ]
+			[ ODDictionaryDiff left: self right: nil ]
 		ifNotNil: [ :c | c diffDictionary: self ]
 ]
 
@@ -13,9 +13,9 @@ Dictionary >> diffDictionary: aDictionary [
 	| result |
 	result := nil.
 	aDictionary
-		ifNil: [ result := DictionaryDiff left: nil right: self ]
+		ifNil: [ result := ODDictionaryDiff left: nil right: self ]
 		ifNotNil: [ :d | 
-			result := DictionaryDiff left: d right: self.
+			result := ODDictionaryDiff left: d right: self.
 			self
 				keysAndValuesDo: [ :k :v | 
 					| selfValue |
@@ -24,9 +24,9 @@ Dictionary >> diffDictionary: aDictionary [
 						at: k
 						ifPresent: [ :otherValue | 
 							selfValue = otherValue
-								ifTrue: [ result addMatch: (self class with: k -> selfValue) ]
-								ifFalse: [ result addValueDiff: (otherValue diff: selfValue) ] ]
-						ifAbsent: [ result ifNil: [ result := DictionaryDiff left: d right: self ].
-							result addKeyDiff: k ] ] ].
+								ifTrue: [ result addMatch: selfValue at: k ]
+								ifFalse: [ result addDiff: (otherValue diff: selfValue) at: k ] ]
+						ifAbsent: [ result ifNil: [ result := ODDictionaryDiff left: d right: self ].
+							result addDiff: (selfValue diff: nil) at: k ] ] ].
 	^ result
 ]
