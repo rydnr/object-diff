@@ -1,31 +1,36 @@
-# changes file
+
+
+
+
+
+
+
+
 *.changes
+# changes file
 *.chg
-
-# system image
-*.image
-*.img7
-*.img
-
-# Pharo Smalltalk Debug log file
-PharoDebug.log
-
-# Squeak Smalltalk Debug log file
-SqueakDebug.log
-
-# Dolphin Smalltalk source file
-*.sml
-
+credentials.st
 # Dolphin Smalltalk error file
+# Dolphin Smalltalk source file
 *.errors
-
-# Monticello package cache
-/package-cache
-
-# playground cache
-/play-cache
-/play-stash
-
-# Metacello-github cache
 /github-cache
 github-*.zip
+.gradle
+gradle-local.properties
+*.image
+image.*/
+*.img
+*.img7
+# Metacello-github cache
+# Monticello package cache
+/package-cache
+PharoDebug.log
+# Pharo Smalltalk Debug log file
+Pharo*.sources
+/play-cache
+# playground cache
+/play-stash
+*.sml
+SqueakDebug.log
+# Squeak Smalltalk Debug log file
+# system image
