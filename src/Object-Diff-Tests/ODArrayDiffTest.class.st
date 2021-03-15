@@ -6,9 +6,8 @@ Class {
 
 { #category : #tests }
 ODArrayDiffTest >> test_array_with_dictionary_diff_array_with_string [
-	| diff left right nestedLeft nestedRight |
-	left := Array new: 1.
-	left atWrap: 1 put: (Dictionary with: 'd' -> 'D' with: 'e' -> 'E').
+	| diff left right |
+	left := Array with: (Dictionary with: 'd' -> 'D' with: 'e' -> 'E').
 	right := #('x').
 	diff := left odDiff: right.
 	"[1:['d'->'D' 'e'->'E']]"

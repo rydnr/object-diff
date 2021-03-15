@@ -77,3 +77,18 @@ ODDictionaryDiffTest >> test_printOn_identical [
 		assert: diff greaseString
 		equals: '[''firstKey''->''a'' ''secondKey''->''b'']'
 ]
+
+{ #category : #tests }
+ODDictionaryDiffTest >> test_printOn_partially_matching_dictionaries [
+	| diff left right |
+	left := Dictionary new.
+	left at: 'firstKey' put: 'a'.
+	left at: 'secondKey' put: 'b'.
+	right := Dictionary new.
+	right at: 'firstKey' put: 'a'.
+	right at: 'secondKey' put: 'c'.
+	diff := left odDiff: right.
+	self
+		assert: diff greaseString
+		equals: '[''secondKey''->''b''~=''c'']'
+]

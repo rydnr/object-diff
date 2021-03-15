@@ -1,5 +1,5 @@
 Class {
-	#name : #ODArrayDiff,
+	#name : #ODObjectDiff,
 	#superclass : #ODAbstractDiff,
 	#category : #'Object-Diff'
 }

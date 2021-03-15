@@ -43,5 +43,5 @@ Dictionary >> odPrintDiffOn: aStream [
 	self associations
 		do: [ :assoc | assoc printOn: aStream ]
 		separatedBy: [ aStream nextPut: Character space ].
-		aStream nextPut: $]
+	aStream nextPut: $]
 ]

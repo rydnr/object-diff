@@ -1,11 +1,8 @@
 Class {
 	#name : #ODNumberDiff,
-	#superclass : #Object,
+	#superclass : #ODAbstractDiff,
 	#instVars : [
-		'left',
-		'right',
-		'match',
-		'identical'
+		'match'
 	],
 	#category : #'Object-Diff'
 }
@@ -19,28 +16,6 @@ ODNumberDiff class >> left: left right: right match: aString [
 		right: right;
 		match: aString.
 	^ result
-]
-
-{ #category : #accessing }
-ODNumberDiff >> identical [
-	^ identical
-		ifNil: [ self identical: left = right.
-			identical ]
-]
-
-{ #category : #accessing }
-ODNumberDiff >> identical: aBoolean [
-	identical := aBoolean
-]
-
-{ #category : #accessing }
-ODNumberDiff >> left [
-	^ left
-]
-
-{ #category : #accessing }
-ODNumberDiff >> left: anObject [
-	left := anObject
 ]
 
 { #category : #accessing }
@@ -82,14 +57,4 @@ ODNumberDiff >> printOn: aStream [
 					aStream nextPut: $).
 					 ] ].
 	aStream nextPut: $)
-]
-
-{ #category : #accessing }
-ODNumberDiff >> right [
-	^ right
-]
-
-{ #category : #accessing }
-ODNumberDiff >> right: anObject [
-	right := anObject
 ]

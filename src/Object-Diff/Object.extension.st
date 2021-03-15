@@ -11,11 +11,11 @@ Object >> instVarNamed: aString [
 Object >> instVarNamed: aString ifAbsent: aBlock [
 	"Return the value of the instance variable in me with that name.  Slow and unclean, but very useful. "
 
-	^ self
-		instVarAt:
-			(self class
-				instVarIndexFor: aString asString
-				ifAbsent: aBlock)
+	| index |
+	index := self class
+		instVarIndexFor: aString greaseString
+		ifAbsent: [ nil ].
+	^ index ifNil: [ aBlock value: aString ] ifNotNil: [ :i | self instVarAt: i ]
 ]
 
 { #category : #'*Object-Diff' }
@@ -39,26 +39,61 @@ Object >> instVarNamed: aString put: aValue ifAbsent: aBlock [
 
 { #category : #'*Object-Diff' }
 Object >> odDiff: anObject [
+	^ anObject odDiffObject: self
+]
+
+{ #category : #'*Object-Diff' }
+Object >> odDiffObject: anObject [
 	| result |
-	result := OrderedCollection new.
-	self class instVarNames
-		do: [ :varName | 
-			| otherValue selfValue diff |
-			diff := nil.
-			otherValue := anObject
-				instVarNamed: varName
-				ifAbsent: [ nil ].
-			selfValue := self instVarNamed: varName.
-			selfValue
-				ifNil: [ otherValue ifNotNil: [ :v | diff := v odDiff: selfValue ] ]
-				ifNotNil: [ :s | 
-					otherValue
-						ifNotNil: [ :arg | 
-							s = otherValue
-								ifFalse: [ diff := s odDiff: otherValue ] ] ].
-			diff
-				ifNotNil: [ :d | 
-					(d value isNotNil and: [ d value identical ])
-						ifFalse: [ result add: varName -> diff ] ] ].
+	result := nil.
+	anObject
+		ifNil: [ result := ODObjectDiff left: nil right: self ]
+		ifNotNil: [ :o | 
+			result := ODObjectDiff left: o right: self.
+			self odDiffObject: anObject into: result.
+			anObject
+				odDiffObject: self
+				into: result
+				skipMatches: true
+				swapLeftRight: true ].
 	^ result
+]
+
+{ #category : #'*Object-Diff' }
+Object >> odDiffObject: anObject into: aDiff [
+	^ self odDiffObject: anObject into: aDiff skipMatches: false swapLeftRight: false
+]
+
+{ #category : #'*Object-Diff' }
+Object >> odDiffObject: anObject into: aDiff skipMatches: skipMatches swapLeftRight: swap [
+	anObject
+		ifNotNil: [ :o | 
+			self class instVarNames
+				do: [ :varName | 
+					| otherValue selfValue |
+					otherValue := anObject
+						instVarNamed: varName
+						ifAbsent: [ :name | nil ].
+					selfValue := self instVarNamed: varName.
+					selfValue
+						ifNil: [ otherValue
+								ifNotNil: [ :v | 
+									| diff |
+									diff := v odDiff: selfValue.
+									swap
+										ifTrue: [ diff := diff reversed ].
+									aDiff addDiff: diff at: varName ] ]
+						ifNotNil: [ :s | 
+							otherValue
+								ifNil: [ | diff |
+									diff := s odDiff: nil.
+									swap ifFalse: [ diff := diff reversed ].
+									aDiff addDiff: diff at: varName ]
+								ifNotNil: [ :other | 
+									s = other
+										ifTrue: [ skipMatches
+												ifFalse: [ aDiff addMatch: s at: varName ] ]
+										ifFalse: [ | diff |
+											diff := s odDiff: other.
+											aDiff addDiff: diff at: varName ] ] ] ] ]
 ]

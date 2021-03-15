@@ -1,13 +1,9 @@
 Class {
 	#name : #ODStringDiff,
-	#superclass : #Object,
+	#superclass : #ODAbstractDiff,
 	#instVars : [
-		'startsAtPosition',
-		'right',
-		'left',
 		'match',
-		'startsAt',
-		'identical'
+		'startsAt'
 	],
 	#category : #'Object-Diff'
 }
@@ -33,28 +29,6 @@ ODStringDiff >> <= anInstance [
 ODStringDiff >> = anObject [
 ^ self class = anObject class 
 and: [ self left = anObject left and: [ self right = anObject right and: [ self startsAt = anObject startsAt and: [ self match = anObject match ] ] ] ]
-]
-
-{ #category : #accessing }
-ODStringDiff >> identical [
-	^ identical
-		ifNil: [ self identical: (left = right).
-			identical ]
-]
-
-{ #category : #private }
-ODStringDiff >> identical: aBoolean [
-	identical := aBoolean
-]
-
-{ #category : #accessing }
-ODStringDiff >> left [
-	^ left
-]
-
-{ #category : #private }
-ODStringDiff >> left: aString [
-	left := aString
 ]
 
 { #category : #api }
@@ -94,9 +68,14 @@ ODStringDiff >> printOn: aStream [
 
 { #category : #printing }
 ODStringDiff >> printOnDifferent: aStream [
-	self left odPrintDiffOn: aStream.
+	self left
+		ifNil: [ aStream nextPutAll: 'nil' ]
+		ifNotNil: [ :l | l odPrintDiffOn: aStream ].
 	aStream nextPutAll: '~='.
-	self right odPrintDiffOn: aStream
+	self right
+		ifNil: [ aStream nextPutAll: 'nil' ]
+		ifNotNil: [ :r | r odPrintDiffOn: aStream ].
+
 ]
 
 { #category : #printing }
@@ -104,16 +83,6 @@ ODStringDiff >> printOnIdentical: aStream [
 	aStream nextPut: $[.
 		self left printOn: aStream.
 		aStream nextPut: $]
-]
-
-{ #category : #accessing }
-ODStringDiff >> right [
-	^ right
-]
-
-{ #category : #private }
-ODStringDiff >> right: aString [
-	right := aString
 ]
 
 { #category : #api }
