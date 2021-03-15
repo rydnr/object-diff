@@ -14,14 +14,16 @@ String >> odDiff: aString [
 { #category : #'*Object-Diff' }
 String >> odDiffDictionary: aDictionary [
 	| result |
-	result := ODDictionaryDiff left: aDictionary right: self.
+	result := ODStringDiff
+		left: aDictionary
+		right: self
+		startsAt: 1
+		match: nil.
 	result
 		addDiff:
-			(ODStringDiff
+			(ODDictionaryDiff
 				left: aDictionary
-				right: self
-				startsAt: 1
-				match: nil)
+				right: self)
 		at: 1.
 	^ result
 ]

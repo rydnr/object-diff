@@ -20,7 +20,7 @@ Array >> odDiffCollection: aCollection withDiffClass: aClass [
 	aCollection
 		ifNil: [ result := aClass left: nil right: self ]
 		ifNotNil: [ :d | 
-			result := ODArrayDiff left: d right: self.
+			result := aClass left: d right: self.
 			self
 				keysAndValuesDo: [ :i :v | 
 					| selfValue |
@@ -31,7 +31,8 @@ Array >> odDiffCollection: aCollection withDiffClass: aClass [
 							selfValue = otherValue
 								ifTrue: [ result addMatch: selfValue at: i ]
 								ifFalse: [ result addDiff: (otherValue odDiff: selfValue) at: i ] ]
-						ifFalse: [ selfValue ifNotNil: [ :sv | result addDiff: (sv odDiff: nil) at: i ] ] ] ].
+						ifFalse:
+							[ selfValue ifNotNil: [ :sv | result addDiff: (sv odDiff: nil) at: i ] ] ] ].
 	^ result
 ]
 
