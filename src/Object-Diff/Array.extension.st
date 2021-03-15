@@ -48,3 +48,10 @@ Array >> odDiffString: aString [
 		ifNil: [ ODArrayDiff left: self right: nil ]
 		ifNotNil: [ :c | ODArrayDiff left: aString right: self ]
 ]
+
+{ #category : #'*Object-Diff' }
+Array >> odPrintDiffOn: aStream [
+	aStream nextPut: $[.
+	self do: [ :v | v printOn: aStream ].
+	aStream nextPut: $]
+]

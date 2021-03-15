@@ -43,6 +43,11 @@ Object >> odDiff: anObject [
 ]
 
 { #category : #'*Object-Diff' }
+Object >> odDiffNumber: aNumber [
+	^ ODNumberDiff left: aNumber right: self
+]
+
+{ #category : #'*Object-Diff' }
 Object >> odDiffObject: anObject [
 	| result |
 	result := nil.

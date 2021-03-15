@@ -38,11 +38,6 @@ Dictionary >> odDiffDictionary: aDictionary [
 ]
 
 { #category : #'*Object-Diff' }
-Dictionary >> odDiffNumber: aNumber [
-	^ ODNumberDiff left: aNumber right: self
-]
-
-{ #category : #'*Object-Diff' }
 Dictionary >> odPrintDiffOn: aStream [
 	aStream nextPut: $[.
 	self associations

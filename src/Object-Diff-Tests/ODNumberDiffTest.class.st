@@ -14,6 +14,17 @@ ODNumberDiffTest >> test_identical [
 ]
 
 { #category : #tests }
+ODNumberDiffTest >> test_number1_diff_Array [
+	| diff right |
+	right := #('a').
+	diff := 1 odDiff: right.
+	self assert: diff isNotNil.
+	self assert: diff left equals: 1.
+	self assert: diff right equals: right.
+	self assert: diff greaseString equals: '1~=[''a'']'
+]
+
+{ #category : #tests }
 ODNumberDiffTest >> test_number1_diff_Dictionary [
 	| diff right |
 	right := Dictionary new.
