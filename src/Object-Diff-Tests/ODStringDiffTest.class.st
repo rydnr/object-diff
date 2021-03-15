@@ -22,9 +22,7 @@ ODStringDiffTest >> test_printOn_identical [
 	| diff value |
 	value := 'a'.
 	diff := value odDiff: value.
-	self
-		assert: diff greaseString
-		equals: '[''' , value , ''']'
+	self assert: diff greaseString equals: ''
 ]
 
 { #category : #tests }
@@ -73,8 +71,5 @@ ODStringDiffTest >> test_string_diff_smallinteger [
 	left := 'a'.
 	right := 1.
 	diff := left odDiff: right.
-	self
-		assert: diff greaseString
-		equals: '(a ByteString(''a'') ~= a SmallInteger(1))'.
-	self assert: diff match isNil
+	self assert: diff greaseString equals: '''a''~=1'
 ]

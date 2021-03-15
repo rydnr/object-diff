@@ -29,6 +29,28 @@ String >> odDiffDictionary: aDictionary [
 ]
 
 { #category : #'*Object-Diff' }
+String >> odDiffNumber: anInteger [
+	^ anInteger
+		ifNil: [ ODStringDiff
+				left: nil
+				right: self
+				startsAt: 1
+				match: '' ]
+		ifNotNil: [ :s | 
+			self greaseString = anInteger greaseString
+				ifTrue: [ ODStringDiff
+						left: s
+						right: self
+						startsAt: self size + 1
+						match: self ]
+				ifFalse: [ ODStringDiff
+						left: s
+						right: self
+						startsAt: 1
+						match: nil ] ]
+]
+
+{ #category : #'*Object-Diff' }
 String >> odDiffString: aString [
 	| result |
 	result := nil.
@@ -63,9 +85,4 @@ String >> odDiffString: aString [
 								startsAt: nil
 								match: self ] ] ].
 	^ result
-]
-
-{ #category : #'*Object-Diff' }
-String >> odPrintDiffOn: aStream [
-	^ self printOn: aStream
 ]

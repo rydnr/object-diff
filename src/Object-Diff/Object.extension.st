@@ -97,3 +97,8 @@ Object >> odDiffObject: anObject into: aDiff skipMatches: skipMatches swapLeftRi
 											diff := s odDiff: other.
 											aDiff addDiff: diff at: varName ] ] ] ] ]
 ]
+
+{ #category : #'*Object-Diff' }
+Object >> odPrintDiffOn: aStream [
+	^ self printOn: aStream
+]

@@ -80,9 +80,7 @@ ODStringDiff >> printOnDifferent: aStream [
 
 { #category : #printing }
 ODStringDiff >> printOnIdentical: aStream [
-	aStream nextPut: $[.
-		self left printOn: aStream.
-		aStream nextPut: $]
+	
 ]
 
 { #category : #api }
