@@ -13,7 +13,7 @@ Object >> instVarNamed: aString ifAbsent: aBlock [
 
 	| index |
 	index := self class
-		instVarIndexFor: aString greaseString
+		instVarIndexFor: aString asString
 		ifAbsent: [ nil ].
 	^ index ifNil: [ aBlock value: aString ] ifNotNil: [ :i | self instVarAt: i ]
 ]
