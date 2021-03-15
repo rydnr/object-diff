@@ -12,7 +12,7 @@ It uses double-dispatch to properly compare classes according to their semantics
 
 ## Usage
 
-Just call `yourInstance diff: anotherInstance`. It will return a specific instance of the classes of the package *Object-Diff*. You'll be able to ask if they are `identical`, or to display the differences in a custom format.
+Just call `yourInstance odDiff: anotherInstance`. It will return a specific instance of the classes of the package *Object-Diff*. You'll be able to ask if they are `identical`, or to display the differences in a custom format.
 
 ## Work in progress
 
