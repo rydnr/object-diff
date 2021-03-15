@@ -22,4 +22,4 @@ Just call `yourInstance odDiff: anotherInstance`. It will return a specific inst
 - Improve String vs String differences.
 
 ## Credits
-- Background of the Pharo image by <a href="https://pixabay.com/users/jobischpeuchet-4390049/">JoBischPeuchet</a> from <a href="https://pixabay.com/">Pixabay</a>
+- Background of the Pharo image by <a href="https://pixabay.com/users/jobischpeuchet-4390049/">JoBischPeuchet</a> from <a href="https://pixabay.com/">Pixabay</a>.
