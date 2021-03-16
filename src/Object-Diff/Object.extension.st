@@ -43,8 +43,13 @@ Object >> odDiff: anObject [
 ]
 
 { #category : #'*Object-Diff' }
+Object class >> odDiffClass [
+	^ ODObjectDiff 
+]
+
+{ #category : #'*Object-Diff' }
 Object >> odDiffNumber: aNumber [
-	^ ODNumberDiff left: aNumber right: self
+	^ self class odDiffClass incompatibleLeft: aNumber right: self
 ]
 
 { #category : #'*Object-Diff' }
@@ -101,6 +106,11 @@ Object >> odDiffObject: anObject into: aDiff skipMatches: skipMatches swapLeftRi
 										ifFalse: [ | diff |
 											diff := s odDiff: other.
 											aDiff addDiff: diff at: varName ] ] ] ] ]
+]
+
+{ #category : #'*Object-Diff' }
+Object >> odDiffString: aString [
+	^ self class odDiffClass incompatibleLeft: aString right: self 
 ]
 
 { #category : #'*Object-Diff' }

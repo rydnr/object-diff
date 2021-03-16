@@ -10,15 +10,17 @@ ODTPrintOn classSide >> printOnSeparator [
 
 { #category : #printing }
 ODTPrintOn >> printOn: aStream [
-	self identical
-		ifTrue: [ self
-				printOnIdentical: aStream
-				matches: self matches
-				separator: self class printOnSeparator ]
-		ifFalse: [ self
-				printOnDifferent: aStream
-				diffs: self diffs
-				separator: self class printOnSeparator ]
+	self incompatible
+		ifTrue: [ self printOnIncompatible: aStream left: self left right: self right ]
+		ifFalse: [ self identical
+				ifTrue: [ self
+						printOnIdentical: aStream
+						matches: self matches
+						separator: self class printOnSeparator ]
+				ifFalse: [ self
+						printOnDifferent: aStream
+						diffs: self diffs
+						separator: self class printOnSeparator ] ]
 ]
 
 { #category : #printing }
@@ -45,4 +47,11 @@ ODTPrintOn >> printOnIdentical: aStream matches: aDict separator: aSeparator [
 					(aDict at: k) printOn: aStream ]
 				separatedBy: [ aStream nextPut: Character space ] ].
 	aStream nextPut: $]
+]
+
+{ #category : #printing }
+ODTPrintOn >> printOnIncompatible: aStream left: left right: right [
+	left odPrintDiffOn: aStream.
+	aStream nextPutAll: '~='.
+	right odPrintDiffOn: aStream
 ]

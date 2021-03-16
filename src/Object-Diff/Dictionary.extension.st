@@ -15,6 +15,11 @@ Dictionary >> odDiff: aCollection [
 ]
 
 { #category : #'*Object-Diff' }
+Dictionary class >> odDiffClass [
+	^ ODDictionaryDiff
+]
+
+{ #category : #'*Object-Diff' }
 Dictionary >> odDiffDictionary: aDictionary [
 	| result |
 	result := nil.
@@ -35,6 +40,11 @@ Dictionary >> odDiffDictionary: aDictionary [
 						ifAbsent: [ result ifNil: [ result := ODDictionaryDiff left: d right: self ].
 							result addDiff: (selfValue odDiff: nil) at: k ] ] ].
 	^ result
+]
+
+{ #category : #'*Object-Diff' }
+Dictionary >> odDiffString: aString [ 
+	^ ODDictionaryDiff incompatibleLeft: aString right: self
 ]
 
 { #category : #'*Object-Diff' }

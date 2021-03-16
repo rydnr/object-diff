@@ -12,6 +12,11 @@ String >> odDiff: aString [
 ]
 
 { #category : #'*Object-Diff' }
+String class >> odDiffClass [
+	^ ODStringDiff
+]
+
+{ #category : #'*Object-Diff' }
 String >> odDiffDictionary: aDictionary [
 	| result |
 	result := ODStringDiff

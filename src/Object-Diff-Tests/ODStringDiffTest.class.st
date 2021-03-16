@@ -55,6 +55,25 @@ ODStringDiffTest >> test_string1_diff_string2 [
 ]
 
 { #category : #tests }
+ODStringDiffTest >> test_string_diff_Array [
+	| diff left right |
+	left := 'a'.
+	right := Array with: '1' with: '2'.
+	diff := left odDiff: right.
+	self assert: diff greaseString equals: '''a''~=[1:''1'' 2:''2'']'
+]
+
+{ #category : #tests }
+ODStringDiffTest >> test_string_diff_Dictionary [
+	| diff left right |
+	left := 'a'.
+	right := Dictionary new.
+	right at: '1' put: '2'.
+	diff := left odDiff: right.
+	self assert: diff greaseString equals: '''a''~=[''1''->''2'']'
+]
+
+{ #category : #tests }
 ODStringDiffTest >> test_string_diff_nil [
 	| diff |
 	diff := 'a b c' odDiff: nil.

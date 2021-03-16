@@ -8,10 +8,19 @@ Class {
 		'right',
 		'identical',
 		'diffs',
-		'matches'
+		'matches',
+		'incompatible'
 	],
 	#category : #'Object-Diff'
 }
+
+{ #category : #'instance creation' }
+ODAbstractDiff class >> incompatibleLeft: left right: right [
+	| result |
+	result := self left: left right: right.
+	result incompatible: true.
+	^ result
+]
 
 { #category : #'instance creation' }
 ODAbstractDiff class >> left: left right: right [
@@ -63,6 +72,16 @@ ODAbstractDiff >> identical [
 { #category : #accessing }
 ODAbstractDiff >> identical: anObject [
 	identical := anObject
+]
+
+{ #category : #accessing }
+ODAbstractDiff >> incompatible [
+	^ incompatible ifNil: [ self incompatible: false. incompatible ]
+]
+
+{ #category : #accessing }
+ODAbstractDiff >> incompatible: aBoolean [
+	incompatible := aBoolean
 ]
 
 { #category : #accessing }

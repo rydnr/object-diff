@@ -8,6 +8,11 @@ OrderedCollection >> odDiff: aCollection [
 ]
 
 { #category : #'*Object-Diff' }
+OrderedCollection class >> odDiffClass [
+	^ ODOrderedCollectionDiff
+]
+
+{ #category : #'*Object-Diff' }
 OrderedCollection >> odDiffOrderedCollection: aCollection [
 	| result |
 	result := nil.

@@ -14,6 +14,11 @@ Array >> odDiffArray: aCollection [
 ]
 
 { #category : #'*Object-Diff' }
+Array class >> odDiffClass [
+	^ ODArrayDiff
+]
+
+{ #category : #'*Object-Diff' }
 Array >> odDiffCollection: aCollection withDiffClass: aClass [
 	| result |
 	result := nil.
@@ -43,15 +48,8 @@ Array >> odDiffOrderedCollection: aCollection [
 ]
 
 { #category : #'*Object-Diff' }
-Array >> odDiffString: aString [
-	^ aString
-		ifNil: [ ODArrayDiff left: self right: nil ]
-		ifNotNil: [ :c | ODArrayDiff left: aString right: self ]
-]
-
-{ #category : #'*Object-Diff' }
 Array >> odPrintDiffOn: aStream [
 	aStream nextPut: $[.
-	self do: [ :v | v printOn: aStream ].
+	self doWithIndex: [ :v :i | aStream nextPutAll: i asString. aStream nextPut: $:. v printOn: aStream ] separatedBy: [ aStream nextPut: Character space ].
 	aStream nextPut: $]
 ]
