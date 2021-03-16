@@ -28,8 +28,14 @@ CurriedBlock >> curriedValue: anObject [
 ]
 
 { #category : #'class membership' }
-CurriedBlock >> doesNotUnderstand: aSelector [
-	^ self wrapped doesNotUnderstand: aSelector
+CurriedBlock >> doesNotUnderstand: aMessage [
+	"delegate all not implemented methods to the wrapped closure"
+
+	^ (self wrapped respondsTo: aMessage selector)
+		ifTrue: [ self wrapped
+				perform: aMessage selector
+				withEnoughArguments: aMessage arguments ]
+		ifFalse: [ super doesNotUnderstand: aMessage ]
 ]
 
 { #category : #'class membership' }

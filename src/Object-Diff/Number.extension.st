@@ -18,11 +18,6 @@ Number >> odDiffNumber: aNumber [
 ]
 
 { #category : #'*Object-Diff' }
-Number >> odDiffString: aString [
-	^ ODNumberDiff incompatibleLeft: aString right: self.
-]
-
-{ #category : #'*Object-Diff' }
 Number >> printNameOn: aWriteStream [
 	^ super printOn: aWriteStream
 ]

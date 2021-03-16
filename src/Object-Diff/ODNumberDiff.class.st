@@ -8,7 +8,7 @@ Class {
 ODNumberDiff >> printOn: aStream [
 	self identical
 		ifTrue: [ ^ self ].
-	self left ifNotNil: [ :l | l printOn: aStream ].
+	self left ifNotNil: [ :l | l odPrintDiffOn: aStream ].
 	aStream nextPutAll: '~='.
 	self right ifNotNil: [ :r | r odPrintDiffOn: aStream ]
 ]

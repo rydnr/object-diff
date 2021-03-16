@@ -35,3 +35,15 @@ OrderedCollection >> odDiffOrderedCollection: aCollection [
 							result addDiff: (selfValue odDiff: nil) at: i ] ] ].
 	^ result
 ]
+
+{ #category : #'*Object-Diff' }
+OrderedCollection >> odPrintDiffOn: aStream [
+	aStream nextPut: $[.
+	self
+		doWithIndex: [ :v :i | 
+			aStream nextPutAll: i asString.
+			aStream nextPut: $:.
+			v printOn: aStream ]
+		separatedBy: [ aStream nextPut: Character space ].
+	aStream nextPut: $]
+]

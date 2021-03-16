@@ -5,16 +5,7 @@ Class {
 }
 
 { #category : #tests }
-ODNumberDiffTest >> test_identical [
-	| diff value |
-	value := 1.
-	diff := value odDiff: value.
-	self assert: diff isNotNil.
-	self assert: diff identical
-]
-
-{ #category : #tests }
-ODNumberDiffTest >> test_number1_diff_Array [
+ODNumberDiffTest >> test_Number_diff_Array [
 	| diff right |
 	right := #('a').
 	diff := 1 odDiff: right.
@@ -25,7 +16,7 @@ ODNumberDiffTest >> test_number1_diff_Array [
 ]
 
 { #category : #tests }
-ODNumberDiffTest >> test_number1_diff_Dictionary [
+ODNumberDiffTest >> test_Number_diff_Dictionary [
 	| diff right |
 	right := Dictionary new.
 	right at: 'a' put: 'b'.
@@ -37,7 +28,16 @@ ODNumberDiffTest >> test_number1_diff_Dictionary [
 ]
 
 { #category : #tests }
-ODNumberDiffTest >> test_number1_diff_String [
+ODNumberDiffTest >> test_Number_diff_Number [
+	| diff |
+	diff := 1 odDiff: 2.
+	self assert: diff isNotNil.
+	self assert: diff left equals: 1.
+	self assert: diff right equals: 2
+]
+
+{ #category : #tests }
+ODNumberDiffTest >> test_Number_diff_String [
 	| diff |
 	diff := 1 odDiff: 'a'.
 	self assert: diff isNotNil.
@@ -47,27 +47,27 @@ ODNumberDiffTest >> test_number1_diff_String [
 ]
 
 { #category : #tests }
-ODNumberDiffTest >> test_number1_diff_number2 [
-	| diff |
-	diff := 1 odDiff: 2.
-	self assert: diff isNotNil.
-	self assert: diff left equals: 1.
-	self assert: diff right equals: 2
-]
-
-{ #category : #tests }
-ODNumberDiffTest >> test_printOn_identical [
+ODNumberDiffTest >> test_identical_Numbers [
 	| diff value |
 	value := 1.
 	diff := value odDiff: value.
-	self assert: diff greaseString equals: ''
+	self assert: diff isNotNil.
+	self assert: diff identical
 ]
 
 { #category : #tests }
-ODNumberDiffTest >> test_printOn_number_number [
+ODNumberDiffTest >> test_printOn_Number_Number [
 	| diff left right |
 	left := 1.
 	right := 2.
 	diff := left odDiff: right.
 	self assert: diff greaseString equals: '1~=2'
+]
+
+{ #category : #tests }
+ODNumberDiffTest >> test_printOn_identical_Numbers [
+	| diff value |
+	value := 1.
+	diff := value odDiff: value.
+	self assert: diff greaseString equals: ''
 ]

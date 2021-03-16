@@ -55,10 +55,12 @@ ODObjectDiffTest >> test_diff_same_class_different_instance [
 ]
 
 { #category : #tests }
-ODObjectDiffTest >> test_identical [
+ODObjectDiffTest >> test_identical_Objects [
 	| value diff |
 	value := ODDummyObject new.
-	value a: 'A'; b: 'B'.
+	value
+		a: 'A';
+		b: 'B'.
 	diff := value odDiff: value.
-	self assert: diff identical.
+	self assert: diff identical
 ]

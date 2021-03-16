@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #tests }
-ODDictionaryDiffTest >> test_dict_diff_string [
+ODDictionaryDiffTest >> test_Dictionary_diff_String [
 	| diff left right |
 	left := Dictionary new.
 	left at: 'firstKey' put: 'a'.
@@ -20,7 +20,7 @@ ODDictionaryDiffTest >> test_dict_diff_string [
 ]
 
 { #category : #tests }
-ODDictionaryDiffTest >> test_diff_nil [
+ODDictionaryDiffTest >> test_Dictionary_diff_nil [
 	| diff left |
 	left := Dictionary new.
 	left at: 'firstKey' put: 'a'.
@@ -31,7 +31,7 @@ ODDictionaryDiffTest >> test_diff_nil [
 ]
 
 { #category : #tests }
-ODDictionaryDiffTest >> test_diff_partially_matching_dictionaries [
+ODDictionaryDiffTest >> test_diff_partially_matching_Dictionaries [
 	| diff left right |
 	left := Dictionary new.
 	left at: 'firstKey' put: 'a'.
@@ -50,7 +50,7 @@ ODDictionaryDiffTest >> test_diff_partially_matching_dictionaries [
 ]
 
 { #category : #tests }
-ODDictionaryDiffTest >> test_identical [
+ODDictionaryDiffTest >> test_identical_Dictionaries [
 	| diff value |
 	value := Dictionary new.
 	value at: 'firstKey' put: 'a'.
@@ -58,16 +58,13 @@ ODDictionaryDiffTest >> test_identical [
 	diff := value odDiff: value.
 	self assert: diff isNotNil.
 	self assert: diff diffs isEmpty.
-	self
-		assert: (diff matches at: 'firstKey')
-		equals: 'a'.
-	self
-		assert: (diff matches at: 'secondKey') equals: 'b'.
+	self assert: (diff matches at: 'firstKey') equals: 'a'.
+	self assert: (diff matches at: 'secondKey') equals: 'b'.
 	self assert: diff identical
 ]
 
 { #category : #tests }
-ODDictionaryDiffTest >> test_printOn_identical [
+ODDictionaryDiffTest >> test_printOn_identical_Dictionaries [
 	| diff value |
 	value := Dictionary new.
 	value at: 'firstKey' put: 'a'.
@@ -79,7 +76,7 @@ ODDictionaryDiffTest >> test_printOn_identical [
 ]
 
 { #category : #tests }
-ODDictionaryDiffTest >> test_printOn_partially_matching_dictionaries [
+ODDictionaryDiffTest >> test_printOn_partially_matching_Dictionaries [
 	| diff left right |
 	left := Dictionary new.
 	left at: 'firstKey' put: 'a'.
