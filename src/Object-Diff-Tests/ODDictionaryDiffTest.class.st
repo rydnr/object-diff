@@ -5,6 +5,49 @@ Class {
 }
 
 { #category : #tests }
+ODDictionaryDiffTest >> test_Dictionary_diff_Array [
+	| diff left right |
+	left := Dictionary new.
+	left at: 'firstKey' put: 'a'.
+	left at: 'secondKey' put: 'b'.
+	right := Array with: 'c'.
+	diff := left odDiff: right.
+	self assert: diff isNotNil.
+	self assert: diff matches isEmpty.
+	self assert: diff incompatible.
+	self
+		assert: diff greaseString
+		equals: '[''firstKey''->''a'' ''secondKey''->''b'']~=[1:''c'']'
+]
+
+{ #category : #tests }
+ODDictionaryDiffTest >> test_Dictionary_diff_Number [
+	| diff left right |
+	left := Dictionary new.
+	left at: 'firstKey' put: 'a'.
+	left at: 'secondKey' put: 'b'.
+	right := 1.
+	diff := left odDiff: right.
+	self assert: diff isNotNil.
+	self assert: diff matches isEmpty.
+	self assert: diff incompatible
+]
+
+{ #category : #tests }
+ODDictionaryDiffTest >> test_Dictionary_diff_OrderedCollection [
+	| diff left right |
+	left := Dictionary new.
+	left at: 'firstKey' put: 'a'.
+	left at: 'secondKey' put: 'b'.
+	right := OrderedCollection with: 'c'.
+	diff := left odDiff: right.
+	self assert: diff isNotNil.
+	self assert: diff matches isEmpty.
+	self assert: diff incompatible.
+	self assert: diff greaseString equals: '[''firstKey''->''a'' ''secondKey''->''b'']~=[1:''c'']'
+]
+
+{ #category : #tests }
 ODDictionaryDiffTest >> test_Dictionary_diff_String [
 	| diff left right |
 	left := Dictionary new.

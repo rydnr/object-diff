@@ -11,7 +11,8 @@ ODTPrintOn classSide >> printOnSeparator [
 { #category : #printing }
 ODTPrintOn >> printOn: aStream [
 	self incompatible
-		ifTrue: [ self printOnIncompatible: aStream left: self left right: self right ]
+		ifTrue:
+			[ self printOnIncompatible: aStream left: self left right: self right ]
 		ifFalse: [ self identical
 				ifTrue: [ self
 						printOnIdentical: aStream
@@ -20,18 +21,20 @@ ODTPrintOn >> printOn: aStream [
 				ifFalse: [ self
 						printOnDifferent: aStream
 						diffs: self diffs
-						separator: self class printOnSeparator ] ]
+						separator: self class printOnSeparator reversed: self class reversed ] ]
 ]
 
 { #category : #printing }
-ODTPrintOn >> printOnDifferent: aStream diffs: aDict separator: aSeparator [
+ODTPrintOn >> printOnDifferent: aStream diffs: aDict separator: aSeparator reversed: reversed [
 	aStream nextPut: $[.
 	aDict
 		ifNotNilAndNotEmpty: [ aDict associations sorted
-				do: [ :assoc | 
+				do: [ :assoc | | value |
 					assoc key printOn: aStream.
 					aStream nextPutAll: aSeparator.
-					assoc value printOn: aStream ]
+					value := assoc value.
+					reversed ifTrue: [ value := value reversed ].
+					value printOn: aStream ]
 				separatedBy: [ aStream nextPut: Character space ] ].
 	aStream nextPut: $]
 ]

@@ -50,7 +50,7 @@ Dictionary >> odDiffString: aString [
 { #category : #'*Object-Diff' }
 Dictionary >> odPrintDiffOn: aStream [
 	aStream nextPut: $[.
-	self associations
+	self associations sorted
 		do: [ :assoc | assoc printOn: aStream ]
 		separatedBy: [ aStream nextPut: Character space ].
 	aStream nextPut: $]

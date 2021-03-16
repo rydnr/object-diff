@@ -1,6 +1,8 @@
 Class {
 	#name : #ODReversedDiff,
-	#superclass : #ODAbstractDiff,
+	#superclass : #Object,
+	#traits : 'ODTPrintOn',
+	#classTraits : 'ODTPrintOn classTrait',
 	#instVars : [
 		'wrapped'
 	],
@@ -13,6 +15,11 @@ ODReversedDiff class >> for: aDiff [
 	result := self new.
 	result wrapped: aDiff.
 	^ result
+]
+
+{ #category : #meta }
+ODReversedDiff class >> reversed [
+	^ true
 ]
 
 { #category : #'reflective operations' }

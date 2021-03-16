@@ -5,6 +5,45 @@ Class {
 }
 
 { #category : #tests }
+ODArrayDiffTest >> test_Array_diff_Dictionary [
+	| diff left right |
+	left := Array with: 'c'.
+	right := Dictionary new.
+	right at: 'firstKey' put: 'a'.
+	right at: 'secondKey' put: 'b'.
+	diff := left odDiff: right.
+	self assert: diff isNotNil.
+	self assert: diff matches isEmpty.
+	self assert: diff incompatible.
+	self
+		assert: diff greaseString
+		equals: '[1:''c'']~=[''firstKey''->''a'' ''secondKey''->''b'']'
+]
+
+{ #category : #tests }
+ODArrayDiffTest >> test_Array_diff_Number [
+	| diff left right |
+	left := #('a').
+	right := 1.
+	diff := left odDiff: right.
+	self assert: diff isNotNil.
+	self assert: diff left equals: left.
+	self assert: diff right equals: right.
+	self assert: diff greaseString equals: '[1:''a'']~=1'
+]
+
+{ #category : #tests }
+ODArrayDiffTest >> test_Array_diff_OrderedCollection [
+	| diff left right |
+	left := Array with: '1' with: '2'.
+	right := OrderedCollection with: '3' with: '4'.
+	diff := left odDiff: right.
+	self
+		assert: diff greaseString
+		equals: '[1:''1''~=''3'' 2:''2''~=''4'']'
+]
+
+{ #category : #tests }
 ODArrayDiffTest >> test_Array_diff_nil [
 	| diff left |
 	left := Array new: 2.

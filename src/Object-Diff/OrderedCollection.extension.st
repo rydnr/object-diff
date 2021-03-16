@@ -8,6 +8,13 @@ OrderedCollection >> odDiff: aCollection [
 ]
 
 { #category : #'*Object-Diff' }
+OrderedCollection >> odDiffArray: aCollection [
+	^ (aCollection
+		odDiffCollection: aCollection
+		withDiffClass: ODOrderedCollectionDiff) reversed
+]
+
+{ #category : #'*Object-Diff' }
 OrderedCollection class >> odDiffClass [
 	^ ODOrderedCollectionDiff
 ]

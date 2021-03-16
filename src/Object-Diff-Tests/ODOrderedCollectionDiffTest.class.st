@@ -7,10 +7,12 @@ Class {
 { #category : #tests }
 ODOrderedCollectionDiffTest >> test_OrderedCollection_diff_Array [
 	| diff left right |
-	left := Array with: '1' with: '2'.
-	right := 3.
+	left := OrderedCollection with: '1' with: '2'.
+	right := Array with: '3' with: '4'.
 	diff := left odDiff: right.
-	self assert: diff greaseString equals: '[1:''1'' 2:''2'']~=3'
+	self
+		assert: diff greaseString
+		equals: '[1:''1''~=''3'' 2:''2''~=''4'']'
 ]
 
 { #category : #tests }

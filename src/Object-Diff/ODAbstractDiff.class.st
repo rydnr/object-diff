@@ -30,6 +30,11 @@ ODAbstractDiff class >> left: left right: right [
 	^ result
 ]
 
+{ #category : #meta }
+ODAbstractDiff class >> reversed [
+	^ false
+]
+
 { #category : #comparing }
 ODAbstractDiff >> = anObject [
 	^ self class = anObject class
