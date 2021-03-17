@@ -36,9 +36,9 @@ ODStringDiffTest >> test_String_diff_Number [
 ODStringDiffTest >> test_String_diff_OrderedCollection [
 	| diff left right |
 	left := 'a'.
-	right := OrderedCollection with: '1' with: '2'.
+	right := ODDummyObject new.
 	diff := left odDiff: right.
-	self assert: diff greaseString equals: '''a''~=[1:''1'' 2:''2'']'
+	self assert: diff greaseString equals: '''a''~=an ODDummyObject'
 ]
 
 { #category : #tests }
@@ -46,10 +46,15 @@ ODStringDiffTest >> test_String_diff_String [
 	| diff |
 	diff := 'a b c' odDiff: 'a b d'.
 	self assert: diff isNotNil.
-	self assert: diff startsAt equals: 5.
-	self assert: diff match equals: 'a b '.
-	self assert: diff leftDiff equals: 'c'.
-	self assert: diff rightDiff equals: 'd'
+	self assert: diff incompatible
+]
+
+{ #category : #tests }
+ODStringDiffTest >> test_String_diff_anything [
+	| diff |
+	diff := 'a b c' odDiff: '<ANYTHING>'.
+	self assert: diff isNotNil.
+	self assert: diff identical
 ]
 
 { #category : #tests }
@@ -70,7 +75,6 @@ ODStringDiffTest >> test_identical_Strings [
 	diff := value odDiff: value.
 	self assert: diff isNotNil.
 	self assert: diff startsAt isNil.
-	self assert: diff match equals: value.
 	self assert: diff leftDiff equals: nil.
 	self assert: diff rightDiff equals: nil.
 	self assert: diff identical

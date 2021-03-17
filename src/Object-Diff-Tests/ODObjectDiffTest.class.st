@@ -5,6 +5,56 @@ Class {
 }
 
 { #category : #tests }
+ODObjectDiffTest >> test_Object_diff_Array [
+	| diff left right |
+	left := ODDummyObject new.
+	right := Array with: '1' with: '2'.
+	diff := left odDiff: right.
+	self
+		assert: diff greaseString
+		equals: 'an ODDummyObject~=[1:''1'' 2:''2'']'
+]
+
+{ #category : #tests }
+ODObjectDiffTest >> test_Object_diff_Dictionary [
+	| diff left right |
+	left := ODDummyObject new.
+	right := Dictionary new.
+	right at: '1' put: '2'.
+	diff := left odDiff: right.
+	self assert: diff greaseString equals: 'an ODDummyObject~=[''1''->''2'']'
+]
+
+{ #category : #tests }
+ODObjectDiffTest >> test_Object_diff_Number [
+	| diff left right |
+		left := ODDummyObject new.
+	right := 3.
+	diff := left odDiff: right.
+	self assert: diff greaseString equals: 'an ODDummyObject~=3'
+]
+
+{ #category : #tests }
+ODObjectDiffTest >> test_Object_diff_OrderedCollection [
+	| diff left right |
+	left := ODDummyObject new.
+	right := OrderedCollection with: '1' with: '2'.
+	diff := left odDiff: right.
+	self
+		assert: diff greaseString
+		equals: 'an ODDummyObject~=[1:''1'' 2:''2'']'
+]
+
+{ #category : #tests }
+ODObjectDiffTest >> test_Object_diff_String [
+	| diff left right |
+	left := ODDummyObject new.
+	right := 'a'.
+	diff := left odDiff: right.
+	self assert: diff greaseString equals: 'an ODDummyObject~=''a'''
+]
+
+{ #category : #tests }
 ODObjectDiffTest >> test_diff_different_classes [
 	| left right diff |
 	left := ODDummyObject new.

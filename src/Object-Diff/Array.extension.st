@@ -42,6 +42,11 @@ Array >> odDiffCollection: aCollection withDiffClass: aClass [
 ]
 
 { #category : #'*Object-Diff' }
+Array >> odDiffObject: anInstance [
+	^ self class odDiffClass incompatibleLeft: anInstance right: self
+]
+
+{ #category : #'*Object-Diff' }
 Array >> odDiffOrderedCollection: aCollection [
 	^ self odDiffCollection: aCollection withDiffClass: ODOrderedCollectionDiff
 
@@ -50,6 +55,11 @@ Array >> odDiffOrderedCollection: aCollection [
 { #category : #'*Object-Diff' }
 Array >> odPrintDiffOn: aStream [
 	aStream nextPut: $[.
-	self doWithIndex: [ :v :i | aStream nextPutAll: i asString. aStream nextPut: $:. v printOn: aStream ] separatedBy: [ aStream nextPut: Character space ].
+	self
+		doWithIndex: [ :v :i | 
+			aStream nextPutAll: i asString.
+			aStream nextPut: $:.
+			v odPrintDiffOn: aStream ]
+		separatedBy: [ aStream nextPut: Character space ].
 	aStream nextPut: $]
 ]

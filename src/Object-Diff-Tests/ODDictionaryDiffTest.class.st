@@ -34,6 +34,19 @@ ODDictionaryDiffTest >> test_Dictionary_diff_Number [
 ]
 
 { #category : #tests }
+ODDictionaryDiffTest >> test_Dictionary_diff_Object [
+	| diff left right |
+	left := Dictionary new.
+	left at: 'firstKey' put: 'a'.
+	left at: 'secondKey' put: 'b'.
+	right := ODDummyObject new.
+	diff := left odDiff: right.
+	self assert: diff isNotNil.
+	self assert: diff matches isEmpty.
+	self assert: diff incompatible
+]
+
+{ #category : #tests }
 ODDictionaryDiffTest >> test_Dictionary_diff_OrderedCollection [
 	| diff left right |
 	left := Dictionary new.
@@ -60,6 +73,18 @@ ODDictionaryDiffTest >> test_Dictionary_diff_String [
 	self assert: diff diffs isNotEmpty.
 	self assert: (diff diffs at: 1) left equals: left.
 	self assert: (diff diffs at: 1) right equals: right
+]
+
+{ #category : #tests }
+ODDictionaryDiffTest >> test_Dictionary_diff_anything [
+	| diff left right |
+	left := Dictionary new.
+	left at: 'firstKey' put: 'a'.
+	left at: 'secondKey' put: 'b'.
+	right := '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff isNotNil.
+	self assert: diff identical
 ]
 
 { #category : #tests }

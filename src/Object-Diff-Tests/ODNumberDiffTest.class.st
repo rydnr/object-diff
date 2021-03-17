@@ -18,13 +18,12 @@ ODNumberDiffTest >> test_Number_diff_Array [
 { #category : #tests }
 ODNumberDiffTest >> test_Number_diff_Dictionary [
 	| diff right |
-	right := Dictionary new.
-	right at: 'a' put: 'b'.
+		right := ODDummyObject new.
 	diff := 1 odDiff: right.
 	self assert: diff isNotNil.
 	self assert: diff left equals: 1.
 	self assert: diff right equals: right.
-	self assert: diff greaseString equals: '1~=[''a''->''b'']'
+	self assert: diff greaseString equals: '1~=an ODDummyObject'
 ]
 
 { #category : #tests }
@@ -44,6 +43,14 @@ ODNumberDiffTest >> test_Number_diff_String [
 	self assert: diff left equals: 1.
 	self assert: diff right equals: 'a'.
 	self assert: diff greaseString equals: '1~=''a'''
+]
+
+{ #category : #tests }
+ODNumberDiffTest >> test_Number_diff_anything [
+	| diff |
+	diff := 1 odDiff: '<ANYTHING>'.
+	self assert: diff isNotNil.
+	self assert: diff identical
 ]
 
 { #category : #tests }

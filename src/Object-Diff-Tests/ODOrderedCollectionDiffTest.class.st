@@ -29,9 +29,9 @@ ODOrderedCollectionDiffTest >> test_OrderedCollection_diff_Dictionary [
 ODOrderedCollectionDiffTest >> test_OrderedCollection_diff_Number [
 	| diff left right |
 	left := OrderedCollection with: '1' with: '2'.
-	right := 3.
+	right := ODDummyObject new.
 	diff := left odDiff: right.
-	self assert: diff greaseString equals: '[1:''1'' 2:''2'']~=3'
+	self assert: diff greaseString equals: '[1:''1'' 2:''2'']~=an ODDummyObject'
 ]
 
 { #category : #tests }
@@ -41,6 +41,15 @@ ODOrderedCollectionDiffTest >> test_OrderedCollection_diff_String [
 	right := 'a'.
 	diff := left odDiff: right.
 	self assert: diff greaseString equals: '[1:''1'' 2:''2'']~=''a'''
+]
+
+{ #category : #tests }
+ODOrderedCollectionDiffTest >> test_OrderedCollection_diff_anything [
+	| diff left right |
+	left := OrderedCollection with: '1' with: '2'.
+	right := '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff identical
 ]
 
 { #category : #tests }

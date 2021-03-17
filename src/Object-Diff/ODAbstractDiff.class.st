@@ -15,6 +15,14 @@ Class {
 }
 
 { #category : #'instance creation' }
+ODAbstractDiff class >> identicalLeft: left right: right [
+	| result |
+	result := self left: left right: right.
+	result identical: true.
+	^ result
+]
+
+{ #category : #'instance creation' }
 ODAbstractDiff class >> incompatibleLeft: left right: right [
 	| result |
 	result := self left: left right: right.

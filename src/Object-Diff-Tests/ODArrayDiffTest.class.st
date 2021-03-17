@@ -33,6 +33,18 @@ ODArrayDiffTest >> test_Array_diff_Number [
 ]
 
 { #category : #tests }
+ODArrayDiffTest >> test_Array_diff_Object [
+	| diff left right |
+	left := #('a').
+	right := ODDummyObject new.
+	diff := left odDiff: right.
+	self assert: diff isNotNil.
+	self assert: diff left equals: left.
+	self assert: diff right equals: right.
+	self assert: diff greaseString equals: '[1:''a'']~=an ODDummyObject'
+]
+
+{ #category : #tests }
 ODArrayDiffTest >> test_Array_diff_OrderedCollection [
 	| diff left right |
 	left := Array with: '1' with: '2'.
@@ -41,6 +53,28 @@ ODArrayDiffTest >> test_Array_diff_OrderedCollection [
 	self
 		assert: diff greaseString
 		equals: '[1:''1''~=''3'' 2:''2''~=''4'']'
+]
+
+{ #category : #tests }
+ODArrayDiffTest >> test_Array_diff_String [
+	| diff left right |
+	left := #('a').
+	right := '1'.
+	diff := left odDiff: right.
+	self assert: diff isNotNil.
+	self assert: diff left equals: left.
+	self assert: diff right equals: right.
+	self assert: diff greaseString equals: '[1:''a'']~=''1'''
+]
+
+{ #category : #tests }
+ODArrayDiffTest >> test_Array_diff_anything [
+	| diff left right |
+	left := #('a').
+	right := '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff isNotNil.
+	self assert: diff identical
 ]
 
 { #category : #tests }

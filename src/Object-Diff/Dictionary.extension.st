@@ -43,6 +43,11 @@ Dictionary >> odDiffDictionary: aDictionary [
 ]
 
 { #category : #'*Object-Diff' }
+Dictionary >> odDiffObject: anInstance [
+	^ self class odDiffClass incompatibleLeft: anInstance right: self
+]
+
+{ #category : #'*Object-Diff' }
 Dictionary >> odDiffString: aString [ 
 	^ ODDictionaryDiff incompatibleLeft: aString right: self
 ]

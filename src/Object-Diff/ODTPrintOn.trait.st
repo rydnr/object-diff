@@ -29,11 +29,13 @@ ODTPrintOn >> printOnDifferent: aStream diffs: aDict separator: aSeparator rever
 	aStream nextPut: $[.
 	aDict
 		ifNotNilAndNotEmpty: [ aDict associations sorted
-				do: [ :assoc | | value |
+				do: [ :assoc | 
+					| value |
 					assoc key printOn: aStream.
 					aStream nextPutAll: aSeparator.
 					value := assoc value.
-					reversed ifTrue: [ value := value reversed ].
+					reversed
+						ifTrue: [ value := value reversed ].
 					value printOn: aStream ]
 				separatedBy: [ aStream nextPut: Character space ] ].
 	aStream nextPut: $]

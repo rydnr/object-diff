@@ -67,7 +67,7 @@ Object >> odDiffObject: anObject [
 	| result |
 	result := nil.
 	anObject
-		ifNil: [ result := ODObjectDiff left: nil right: self ]
+		ifNil: [ result := ODObjectDiff incompatibleLeft: nil right: self ]
 		ifNotNil: [ :o | 
 			result := ODObjectDiff left: o right: self.
 			self odDiffObject: anObject into: result.
@@ -131,4 +131,9 @@ Object >> odDiffString: aString [
 { #category : #'*Object-Diff' }
 Object >> odPrintDiffOn: aStream [
 	^ self printOn: aStream
+]
+
+{ #category : #'*Object-Diff' }
+Object >> odWildcardMatch [
+	^ ODWildcards compareWith: self
 ]

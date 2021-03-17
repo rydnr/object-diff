@@ -10,13 +10,18 @@ OrderedCollection >> odDiff: aCollection [
 { #category : #'*Object-Diff' }
 OrderedCollection >> odDiffArray: aCollection [
 	^ (aCollection
-		odDiffCollection: aCollection
+		odDiffCollection: self
 		withDiffClass: ODOrderedCollectionDiff) reversed
 ]
 
 { #category : #'*Object-Diff' }
 OrderedCollection class >> odDiffClass [
 	^ ODOrderedCollectionDiff
+]
+
+{ #category : #'*Object-Diff' }
+OrderedCollection >> odDiffObject: anInstance [
+	^ self class odDiffClass incompatibleLeft: anInstance right: self
 ]
 
 { #category : #'*Object-Diff' }
