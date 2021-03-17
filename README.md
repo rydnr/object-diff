@@ -12,13 +12,18 @@ It uses double-dispatch to properly compare classes according to their semantics
 
 ## Usage
 
-Just call `yourInstance odDiff: anotherInstance`. It will return a specific instance of the classes of the package *Object-Diff*. You'll be able to ask if they are `identical`, or to display the differences in a custom format.
+First, load it with Metacello:
+
+``` smalltalk
+Metacello new repository: 'github://rydnr/object-diff:main'; baseline: 'ObjectDiff'; load
+```
+
+Afterwards, just call `yourInstance odDiff: anotherInstance`. It will return a specific instance of the classes of the package *Object-Diff*. You'll be able to ask if they are `identical`, `incompatible`, or to display the differences in a custom format.
 
 ## Work in progress
 
-- Support more reciprocal diffs (Dictionary vs Number, Array vs String, etc.).
-- Add Glamorous Toolkit visualizations.
-- Support for files.
+- Add Glamorous Toolkit visualization.
+- Support for file diffs.
 - Improve String vs String differences.
 
 ## Credits
