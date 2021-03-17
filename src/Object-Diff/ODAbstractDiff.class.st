@@ -76,6 +76,21 @@ ODAbstractDiff >> diffs: anObject [
 ]
 
 { #category : #accessing }
+ODAbstractDiff >> gtViewDiffsOn: aView [
+
+	<gtView>
+	
+	(self diffs isEmpty) ifTrue: [^ aView empty].
+	^ aView columnedTree
+		title: 'Differences' translated;
+		items: [self diffs];
+		column: 'Left' item: [:each | 
+			each left];
+		column: 'Right' item: [:each |
+			each right].
+]
+
+{ #category : #accessing }
 ODAbstractDiff >> identical [
 	^ identical
 		ifNil: [ self identical: (left = right).

@@ -31,6 +31,20 @@ ODStringDiff >> = anObject [
 and: [ self left = anObject left and: [ self right = anObject right and: [ self startsAt = anObject startsAt and: [ self match = anObject match ] ] ] ]
 ]
 
+{ #category : #accessing }
+ODStringDiff >> gtViewDiffsOn: aView [
+
+	<gtView>
+	
+	^ aView columnedTree
+		title: 'Differences' translated;
+		items: [ OrderedCollection with: 1];
+		column: 'Left' item: [:each | 
+			self left];
+		column: 'Right' item: [:each |
+			self right].
+]
+
 { #category : #api }
 ODStringDiff >> leftDiff [
 	^ self odDiff: self left
