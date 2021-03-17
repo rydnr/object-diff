@@ -20,6 +20,17 @@ Metacello new repository: 'github://rydnr/object-diff:main'; baseline: 'ObjectDi
 
 Afterwards, just call `yourInstance odDiff: anotherInstance`. It will return a specific instance of the classes of the package *Object-Diff*. You'll be able to ask if they are `identical`, `incompatible`, or to display the differences in a custom format.
 
+## Customization
+
+By default Object-Diff uses wildcards to compare objects. For example,
+``` smalltalk
+'abc' odDiff: '<ANYTHING>' identical
+```
+returns `true`. You can disable this feature with `ODWildcards disable`, or add your own wildcards with
+``` smalltalk
+ODWildcards matches at: '*' put: true
+```
+
 ## Work in progress
 
 - Add Glamorous Toolkit visualization.
