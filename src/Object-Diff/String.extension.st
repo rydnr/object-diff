@@ -25,18 +25,10 @@ String class >> odDiffClass [
 
 { #category : #'*Object-Diff' }
 String >> odDiffDictionary: aDictionary [
-	| result |
-	self odWildcardMatch
-		ifTrue: [ result := ODStringDiff identicalLeft: aDictionary right: self ]
-		ifFalse: [ result := ODStringDiff
-		left: aDictionary
-		right: self
-		startsAt: 1
-		match: nil.
-	result
-		addDiff: (ODDictionaryDiff left: aDictionary right: self)
-		at: 1 ].
-	^ result
+	^ self odWildcardMatch
+		ifTrue: [ ODStringDiff identicalLeft: aDictionary right: self ]
+		ifFalse: [ ODStringDiff incompatibleLeft: aDictionary  right: self ]
+
 ]
 
 { #category : #'*Object-Diff' }
@@ -44,28 +36,26 @@ String >> odDiffNumber: aNumber [
 	^ self odWildcardMatch
 		ifTrue: [ ODStringDiff identicalLeft: aNumber right: self ]
 		ifFalse: [ aNumber
-		ifNil: [ ODStringDiff
-				left: nil
-				right: self
-				startsAt: 1
-				match: '' ]
-		ifNotNil: [ :s | 
-			self greaseString = aNumber greaseString
-				ifTrue: [ ODStringDiff
-						left: s
-						right: self
-						startsAt: self size + 1
-						match: self ]
-				ifFalse: [ ODStringDiff
-						left: s
+				ifNil: [ ODStringDiff
+						left: nil
 						right: self
 						startsAt: 1
-						match: nil ] ] ]
+						match: '' ]
+				ifNotNil: [ :s |
+					self greaseString = aNumber greaseString
+						ifTrue: [ ODStringDiff
+								left: s
+								right: self
+								startsAt: self size + 1
+								match: self ]
+						ifFalse: [ ODStringDiff incompatibleLeft: s right: self ] ] ]
 ]
 
 { #category : #'*Object-Diff' }
 String >> odDiffObject: anInstance [
-	^ self class odDiffClass incompatibleLeft: anInstance right: self
+	^ self odWildcardMatch
+		ifTrue: [ ODStringDiff identicalLeft: anInstance right: self ]
+		ifFalse: [ self class odDiffClass incompatibleLeft: anInstance right: self ]
 ]
 
 { #category : #'*Object-Diff' }

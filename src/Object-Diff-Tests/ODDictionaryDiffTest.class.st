@@ -69,22 +69,42 @@ ODDictionaryDiffTest >> test_Dictionary_diff_String [
 	right := 'c'.
 	diff := left odDiff: right.
 	self assert: diff isNotNil.
-	self assert: diff matches isEmpty.
-	self assert: diff diffs isNotEmpty.
-	self assert: (diff diffs at: 1) left equals: left.
-	self assert: (diff diffs at: 1) right equals: right
+	self assert: diff incompatible
+
 ]
 
 { #category : #tests }
-ODDictionaryDiffTest >> test_Dictionary_diff_anything [
-	| diff left right |
+ODDictionaryDiffTest >> test_Dictionary_diff_anything_wildcard_disabled [
+	| previouslyEnabled |
+	previouslyEnabled := ODWildcards enabled.
+	ODWildcards disable.
+	[ | diff left right |
 	left := Dictionary new.
 	left at: 'firstKey' put: 'a'.
 	left at: 'secondKey' put: 'b'.
 	right := '<ANYTHING>'.
 	diff := left odDiff: right.
 	self assert: diff isNotNil.
-	self assert: diff identical
+	self assert: diff incompatible ]
+		ensure: [ previouslyEnabled
+				ifTrue: [ ODWildcards enable ] ]
+]
+
+{ #category : #tests }
+ODDictionaryDiffTest >> test_Dictionary_diff_anything_wildcard_enabled [
+	| previouslyDisabled |
+	previouslyDisabled := ODWildcards disabled.
+	ODWildcards enable.
+	[ | diff left right |
+	left := Dictionary new.
+	left at: 'firstKey' put: 'a'.
+	left at: 'secondKey' put: 'b'.
+	right := '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff isNotNil.
+	self assert: diff identical ]
+		ensure: [ previouslyDisabled
+				ifTrue: [ ODWildcards disable ] ]
 ]
 
 { #category : #tests }

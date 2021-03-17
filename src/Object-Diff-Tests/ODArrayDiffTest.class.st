@@ -68,13 +68,33 @@ ODArrayDiffTest >> test_Array_diff_String [
 ]
 
 { #category : #tests }
-ODArrayDiffTest >> test_Array_diff_anything [
-	| diff left right |
+ODArrayDiffTest >> test_Array_diff_anything_wildcard_disabled [
+	| previouslyEnabled |
+	previouslyEnabled := ODWildcards enabled.
+	ODWildcards disable.
+	[ | diff left right |
 	left := #('a').
 	right := '<ANYTHING>'.
 	diff := left odDiff: right.
 	self assert: diff isNotNil.
-	self assert: diff identical
+	self assert: diff incompatible ]
+		ensure: [ previouslyEnabled
+				ifTrue: [ ODWildcards enable ] ]
+]
+
+{ #category : #tests }
+ODArrayDiffTest >> test_Array_diff_anything_wildcard_enabled [
+	| previouslyDisabled |
+	previouslyDisabled := ODWildcards disabled.
+	ODWildcards enable.
+	[ | diff left right |
+	left := #('a').
+	right := '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff isNotNil.
+	self assert: diff identical ]
+		ensure: [ previouslyDisabled
+				ifTrue: [ ODWildcards disable ] ]
 ]
 
 { #category : #tests }

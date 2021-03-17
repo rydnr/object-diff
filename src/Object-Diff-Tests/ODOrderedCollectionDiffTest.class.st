@@ -44,12 +44,31 @@ ODOrderedCollectionDiffTest >> test_OrderedCollection_diff_String [
 ]
 
 { #category : #tests }
-ODOrderedCollectionDiffTest >> test_OrderedCollection_diff_anything [
-	| diff left right |
+ODOrderedCollectionDiffTest >> test_OrderedCollection_diff_anything_wildcard_disabled [
+	| previouslyEnabled |
+	previouslyEnabled := ODWildcards enabled.
+	ODWildcards disable.
+	[ | diff left right |
 	left := OrderedCollection with: '1' with: '2'.
 	right := '<ANYTHING>'.
 	diff := left odDiff: right.
-	self assert: diff identical
+	self assert: diff incompatible ]
+		ensure: [ previouslyEnabled
+				ifTrue: [ ODWildcards enable ] ]
+]
+
+{ #category : #tests }
+ODOrderedCollectionDiffTest >> test_OrderedCollection_diff_anything_wildcard_enabled [
+	| previouslyDisabled |
+	previouslyDisabled := ODWildcards disabled.
+	ODWildcards enable.
+	[ | diff left right |
+	left := OrderedCollection with: '1' with: '2'.
+	right := '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff identical ]
+		ensure: [ previouslyDisabled
+				ifTrue: [ ODWildcards disable ] ]
 ]
 
 { #category : #tests }

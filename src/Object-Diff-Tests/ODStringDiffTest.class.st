@@ -50,11 +50,29 @@ ODStringDiffTest >> test_String_diff_String [
 ]
 
 { #category : #tests }
-ODStringDiffTest >> test_String_diff_anything [
-	| diff |
+ODStringDiffTest >> test_String_diff_anything_wildcard_disabled [
+	| previouslyEnabled |
+	previouslyEnabled := ODWildcards enabled.
+	ODWildcards disable.
+	[ | diff |
 	diff := 'a b c' odDiff: '<ANYTHING>'.
 	self assert: diff isNotNil.
-	self assert: diff identical
+	self assert: diff incompatible ]
+		ensure: [ previouslyEnabled
+				ifTrue: [ ODWildcards enable ] ]
+]
+
+{ #category : #tests }
+ODStringDiffTest >> test_String_diff_anything_wildcard_enabled [
+	| previouslyDisabled |
+	previouslyDisabled := ODWildcards disabled.
+	ODWildcards enable.
+	[ | diff |
+	diff := 'a b c' odDiff: '<ANYTHING>'.
+	self assert: diff isNotNil.
+	self assert: diff identical ]
+		ensure: [ previouslyDisabled
+				ifTrue: [ ODWildcards disable ] ]
 ]
 
 { #category : #tests }

@@ -46,11 +46,29 @@ ODNumberDiffTest >> test_Number_diff_String [
 ]
 
 { #category : #tests }
-ODNumberDiffTest >> test_Number_diff_anything [
-	| diff |
+ODNumberDiffTest >> test_Number_diff_anything_wildcard_disabled [
+	| previouslyEnabled |
+	previouslyEnabled := ODWildcards enabled.
+	ODWildcards disable.
+	[ | diff |
 	diff := 1 odDiff: '<ANYTHING>'.
 	self assert: diff isNotNil.
-	self assert: diff identical
+	self assert: diff incompatible ]
+		ensure: [ previouslyEnabled
+				ifTrue: [ ODWildcards enable ] ]
+]
+
+{ #category : #tests }
+ODNumberDiffTest >> test_Number_diff_anything_wildcard_enabled [
+	| previouslyDisabled |
+	previouslyDisabled := ODWildcards disabled.
+	ODWildcards enable.
+	[ | diff |
+	diff := 1 odDiff: '<ANYTHING>'.
+	self assert: diff isNotNil.
+	self assert: diff identical ]
+		ensure: [ previouslyDisabled
+				ifTrue: [ ODWildcards disable ] ]
 ]
 
 { #category : #tests }

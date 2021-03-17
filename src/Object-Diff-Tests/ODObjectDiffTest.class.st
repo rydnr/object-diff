@@ -55,6 +55,34 @@ ODObjectDiffTest >> test_Object_diff_String [
 ]
 
 { #category : #tests }
+ODObjectDiffTest >> test_Object_diff_anything_wildcard_disabled [
+	| previouslyEnabled |
+	previouslyEnabled := ODWildcards enabled.
+	ODWildcards disable.
+	[ | diff left right |
+	left := ODDummyObject new.
+	right := '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff incompatible ]
+		ensure: [ previouslyEnabled
+				ifTrue: [ ODWildcards enable ] ]
+]
+
+{ #category : #tests }
+ODObjectDiffTest >> test_Object_diff_anything_wildcard_enabled [
+	| previouslyDisabled |
+	previouslyDisabled := ODWildcards disabled.
+	ODWildcards enable.
+	[ | diff left right |
+	left := ODDummyObject new.
+	right := '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff identical ]
+		ensure: [ previouslyDisabled
+				ifTrue: [ ODWildcards disable ] ]
+]
+
+{ #category : #tests }
 ODObjectDiffTest >> test_diff_different_classes [
 	| left right diff |
 	left := ODDummyObject new.
