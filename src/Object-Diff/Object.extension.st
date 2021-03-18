@@ -88,7 +88,7 @@ Object >> odDiffObject: anObject into: aDiff [
 Object >> odDiffObject: anObject into: aDiff skipMatches: skipMatches swapLeftRight: swap [
 	anObject
 		ifNotNil: [ :o | 
-			self class instVarNames
+			self class allInstVarNames
 				do: [ :varName | 
 					| otherValue selfValue |
 					otherValue := anObject
