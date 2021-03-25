@@ -26,24 +26,31 @@ ODTPrintOn >> printOn: aStream [
 
 { #category : #printing }
 ODTPrintOn >> printOnDifferent: aStream diffs: aDict separator: aSeparator reversed: reversed [
+	| lastOneWasIdentical |
+	lastOneWasIdentical := false.
 	aStream nextPut: $[.
 	aDict
-		ifNotNil: [ :d | d ifNotEmpty: [ d associations sorted
-				do: [ :assoc | 
-					| value |
-					assoc key printOn: aStream.
-					aStream nextPutAll: aSeparator.
-					value := assoc value.
-					reversed
-						ifTrue: [ value := value reversed ].
-					value printOn: aStream ]
-				separatedBy: [ aStream nextPut: Character space ] ] ].
+		ifNotNil: [ :d | 
+			d
+				ifNotEmpty: [ d associations sorted
+						do: [ :assoc | 
+							| value |
+							value := assoc value.
+							value identical
+								ifTrue: [ lastOneWasIdentical := true ]
+								ifFalse: [ assoc key printOn: aStream.
+									aStream nextPutAll: aSeparator.
+									reversed
+										ifTrue: [ value := value reversed ].
+									value printOn: aStream ] ]
+						separatedBy: [ lastOneWasIdentical
+								ifFalse: [ aStream nextPut: Character space ] ] ] ].
 	aStream nextPut: $]
 ]
 
 { #category : #printing }
 ODTPrintOn >> printOnIdentical: aStream matches: aDict separator: aSeparator [
-	aStream nextPut: $[.
+	"aStream nextPut: $[.
 	aDict
 		ifNotNilAndNotEmpty: [ aDict keys sorted
 				do: [ :k | 
@@ -51,7 +58,7 @@ ODTPrintOn >> printOnIdentical: aStream matches: aDict separator: aSeparator [
 					aStream nextPutAll: aSeparator.
 					(aDict at: k) printOn: aStream ]
 				separatedBy: [ aStream nextPut: Character space ] ].
-	aStream nextPut: $]
+	aStream nextPut: $]"
 ]
 
 { #category : #printing }

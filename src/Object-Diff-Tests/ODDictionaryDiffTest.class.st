@@ -160,7 +160,7 @@ ODDictionaryDiffTest >> test_printOn_identical_Dictionaries [
 	diff := value odDiff: value.
 	self
 		assert: diff greaseString
-		equals: '[''firstKey''->''a'' ''secondKey''->''b'']'
+		equals: ''
 ]
 
 { #category : #tests }

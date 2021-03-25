@@ -249,5 +249,5 @@ ODArrayDiffTest >> test_printOn_identical_Arrays [
 	value := #('a' 'b').
 	diff := value odDiff: value.
 	self assert: diff isNotNil.
-	self assert: diff greaseString equals: '[1:''a'' 2:''b'']'
+	self assert: diff greaseString equals: ''
 ]

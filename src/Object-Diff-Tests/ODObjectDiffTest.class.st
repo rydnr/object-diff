@@ -207,3 +207,52 @@ ODObjectDiffTest >> test_identical_Objects [
 	diff := value odDiff: value.
 	self assert: diff identical
 ]
+
+{ #category : #tests }
+ODObjectDiffTest >> test_printOn_Object_with_String_and_Number_attributes_diff_anything_wildcard_enabled [
+	| previouslyDisabled |
+	previouslyDisabled := ODWildcards disabled.
+	ODWildcards enable.
+	[ | diff left right |
+	left := ODDummyObject new.
+	left a: 'whatever'.
+	left b: 3.
+	right := ODDummyObject new.
+	right a: '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff greaseString equals: '[#b:3~=]' ]
+		ensure: [ previouslyDisabled
+				ifTrue: [ ODWildcards disable ] ]
+]
+
+{ #category : #tests }
+ODObjectDiffTest >> test_printOn_Object_with_String_attribute_diff_anything_wildcard_disabled [
+	| previouslyDisabled |
+	previouslyDisabled := ODWildcards disabled.
+	ODWildcards disable.
+	[ | diff left right |
+	left := ODDummyObject new.
+	left a: 'whatever'.
+	right := ODDummyObject new.
+	right a: '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff greaseString equals: '[#a:''whatever''~=''<ANYTHING>'']' ]
+		ensure: [ previouslyDisabled
+				ifTrue: [ ODWildcards disable ] ]
+]
+
+{ #category : #tests }
+ODObjectDiffTest >> test_printOn_Object_with_String_attribute_diff_anything_wildcard_enabled [
+	| previouslyDisabled |
+	previouslyDisabled := ODWildcards disabled.
+	ODWildcards enable.
+	[ | diff left right |
+	left := ODDummyObject new.
+	left a: 'whatever'.
+	right := ODDummyObject new.
+	right a: '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff greaseString equals: '' ]
+		ensure: [ previouslyDisabled
+				ifTrue: [ ODWildcards disable ] ]
+]
