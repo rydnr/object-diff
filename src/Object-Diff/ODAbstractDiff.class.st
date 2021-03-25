@@ -92,9 +92,16 @@ ODAbstractDiff >> gtViewDiffsOn: aView [
 
 { #category : #accessing }
 ODAbstractDiff >> identical [
-	^ identical
-		ifNil: [ self identical: (left = right).
-			identical ]
+	| check |
+	check := identical ifNil: [ false ].
+	check
+		ifFalse: [ check := self incompatible not.
+			check
+				ifTrue: [ check := left odWildcardMatch
+						or: [ right odWildcardMatch or: [ left = right ] ].
+					check
+						ifFalse: [ check := self diffs isNotEmpty and: [ self diffs allSatisfy: [ :d | d identical ] ] ] ] ].
+	^ check
 ]
 
 { #category : #accessing }

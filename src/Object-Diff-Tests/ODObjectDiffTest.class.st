@@ -28,7 +28,7 @@ ODObjectDiffTest >> test_Object_diff_Dictionary [
 { #category : #tests }
 ODObjectDiffTest >> test_Object_diff_Number [
 	| diff left right |
-		left := ODDummyObject new.
+	left := ODDummyObject new.
 	right := 3.
 	diff := left odDiff: right.
 	self assert: diff greaseString equals: 'an ODDummyObject~=3'
@@ -78,6 +78,71 @@ ODObjectDiffTest >> test_Object_diff_anything_wildcard_enabled [
 	right := '<ANYTHING>'.
 	diff := left odDiff: right.
 	self assert: diff identical ]
+		ensure: [ previouslyDisabled
+				ifTrue: [ ODWildcards disable ] ]
+]
+
+{ #category : #tests }
+ODObjectDiffTest >> test_Object_with_Number_attribute_diff_anything_wildcard_enabled [
+	| previouslyDisabled |
+	previouslyDisabled := ODWildcards disabled.
+	ODWildcards enable.
+	[ | diff left right |
+	left := ODDummyObject new.
+	left a: 33.
+	right := ODDummyObject new.
+	right a: '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff identical ]
+		ensure: [ previouslyDisabled
+				ifTrue: [ ODWildcards disable ] ]
+]
+
+{ #category : #tests }
+ODObjectDiffTest >> test_Object_with_OrderedCollection_attribute_diff_anything_wildcard_enabled [
+	| previouslyDisabled |
+	previouslyDisabled := ODWildcards disabled.
+	ODWildcards enable.
+	[ | diff left right |
+	left := ODDummyObject new.
+	left a: (OrderedCollection with: 'a' with: 1).
+	right := ODDummyObject new.
+	right a: '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff identical ]
+		ensure: [ previouslyDisabled
+				ifTrue: [ ODWildcards disable ] ]
+]
+
+{ #category : #tests }
+ODObjectDiffTest >> test_Object_with_String_attribute_diff_anything_wildcard_enabled [
+	| previouslyDisabled |
+	previouslyDisabled := ODWildcards disabled.
+	ODWildcards enable.
+	[ | diff left right |
+	left := ODDummyObject new.
+	left a: 'whatever'.
+	right := ODDummyObject new.
+	right a: '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff identical ]
+		ensure: [ previouslyDisabled
+				ifTrue: [ ODWildcards disable ] ]
+]
+
+{ #category : #tests }
+ODObjectDiffTest >> test_Object_with_attributes_diff_anything_wildcard_enabled [
+	| previouslyDisabled |
+	previouslyDisabled := ODWildcards disabled.
+	ODWildcards enable.
+	[ | diff left right |
+	left := ODDummyObject new.
+	left a: 'whatever'.
+	left b: 33.
+	right := ODDummyObject new.
+	right a: '<ANYTHING>'.
+	diff := left odDiff: right.
+	self assert: diff identical not ]
 		ensure: [ previouslyDisabled
 				ifTrue: [ ODWildcards disable ] ]
 ]

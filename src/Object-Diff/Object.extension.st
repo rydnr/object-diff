@@ -107,15 +107,20 @@ Object >> odDiffObject: anObject into: aDiff skipMatches: skipMatches swapLeftRi
 							otherValue
 								ifNil: [ | diff |
 									diff := s odDiff: nil.
-									swap ifFalse: [ diff := diff reversed ].
+									swap
+										ifFalse: [ diff := diff reversed ].
 									aDiff addDiff: diff at: varName ]
 								ifNotNil: [ :other | 
-									s = other
-										ifTrue: [ skipMatches
-												ifFalse: [ aDiff addMatch: s at: varName ] ]
-										ifFalse: [ | diff |
-											diff := s odDiff: other.
-											aDiff addDiff: diff at: varName ] ] ] ] ]
+									(s odIdenticalTo: otherValue)
+										ifTrue: [ | diff |
+											diff := ODObjectDiff identicalLeft: otherValue right: s.
+											aDiff addDiff: diff at: varName ]
+										ifFalse: [ s = other
+												ifTrue: [ skipMatches
+														ifFalse: [ aDiff addMatch: s at: varName ] ]
+												ifFalse: [ | diff |
+													diff := s odDiff: other.
+													aDiff addDiff: diff at: varName ] ] ] ] ] ]
 ]
 
 { #category : #'*Object-Diff' }
@@ -126,6 +131,31 @@ Object >> odDiffOrderedCollection: anInstance [
 { #category : #'*Object-Diff' }
 Object >> odDiffString: aString [
 	^ self class odDiffClass incompatibleLeft: aString right: self 
+]
+
+{ #category : #'*Object-Diff' }
+Object >> odIdenticalTo: anObject [
+	| result |
+	result := false.
+	anObject
+		ifNotNil: [ :o | 
+			self class allInstVarNames
+				do: [ :varName | 
+					| otherValue selfValue |
+					otherValue := anObject
+						instVarNamed: varName
+						ifAbsent: [ :name | nil ].
+					selfValue := self instVarNamed: varName.
+					selfValue
+						ifNil: [ otherValue
+								ifNotNil: [ :v | result := otherValue odIdenticalTo: nil ] ]
+						ifNotNil: [ :s | result := s odIdenticalTo: otherValue ] ] ].
+	^ result
+]
+
+{ #category : #'*Object-Diff' }
+Object >> odIdenticalToString: aString [
+	^ aString odWildcardMatch
 ]
 
 { #category : #'*Object-Diff' }

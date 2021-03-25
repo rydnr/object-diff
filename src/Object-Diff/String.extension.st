@@ -76,3 +76,16 @@ String >> odDiffString: aString [
 						ifTrue: [ ODStringDiff identicalLeft: aString right: self ]
 						ifFalse: [ ODStringDiff incompatibleLeft: aString right: self ] ] ] ]
 ]
+
+{ #category : #'*Object-Diff' }
+String >> odIdenticalTo: anObject [
+	^ anObject odIdenticalToString: self
+]
+
+{ #category : #'*Object-Diff' }
+String >> odIdenticalToString: aString [
+	| result |
+	result := self odWildcardMatch .
+	result ifFalse: [ aString ifNotNil: [ result := aString odWildcardMatch ] ].
+	^ result
+]
