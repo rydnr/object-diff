@@ -53,6 +53,16 @@ Dictionary >> odDiffString: aString [
 ]
 
 { #category : #'*Object-Diff' }
+Dictionary >> odIdenticalToDictionary: aDictionary [
+	| result |
+	result := self odWildcardMatch.
+	result
+		ifFalse: [ aDictionary
+				ifNotNil: [ :arg | result := arg odWildcardMatch or: [ arg = self ] ] ].
+	^ result
+]
+
+{ #category : #'*Object-Diff' }
 Dictionary >> odPrintDiffOn: aStream [
 	aStream nextPut: $[.
 	self associations sorted

@@ -49,6 +49,16 @@ OrderedCollection >> odDiffOrderedCollection: aCollection [
 ]
 
 { #category : #'*Object-Diff' }
+OrderedCollection >> odIdenticalToOrderedCollection: anOrderedCollection [
+	| result |
+	result := self odWildcardMatch.
+	result
+		ifFalse: [ anOrderedCollection
+				ifNotNil: [ :arg | result := arg odWildcardMatch or: [ arg = self ] ] ].
+	^ result
+]
+
+{ #category : #'*Object-Diff' }
 OrderedCollection >> odPrintDiffOn: aStream [
 	aStream nextPut: $[.
 	self

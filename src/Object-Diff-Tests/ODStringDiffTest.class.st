@@ -95,7 +95,8 @@ ODStringDiffTest >> test_identical_Strings [
 	self assert: diff startsAt isNil.
 	self assert: diff leftDiff equals: nil.
 	self assert: diff rightDiff equals: nil.
-	self assert: diff identical
+	self assert: diff identical.
+	self assert: (value odIdenticalTo: value)
 ]
 
 { #category : #tests }

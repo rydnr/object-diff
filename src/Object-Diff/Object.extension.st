@@ -88,39 +88,42 @@ Object >> odDiffObject: anObject into: aDiff [
 Object >> odDiffObject: anObject into: aDiff skipMatches: skipMatches swapLeftRight: swap [
 	anObject
 		ifNotNil: [ :o | 
-			self class allInstVarNames
-				do: [ :varName | 
-					| otherValue selfValue |
-					otherValue := anObject
-						instVarNamed: varName
-						ifAbsent: [ :name | nil ].
-					selfValue := self instVarNamed: varName.
-					selfValue
-						ifNil: [ otherValue
-								ifNotNil: [ :v | 
-									| diff |
-									diff := v odDiff: selfValue.
-									swap
-										ifTrue: [ diff := diff reversed ].
-									aDiff addDiff: diff at: varName ] ]
-						ifNotNil: [ :s | 
-							otherValue
-								ifNil: [ | diff |
-									diff := s odDiff: nil.
-									swap
-										ifFalse: [ diff := diff reversed ].
-									aDiff addDiff: diff at: varName ]
-								ifNotNil: [ :other | 
-									(s odIdenticalTo: otherValue)
-										ifTrue: [ | diff |
-											diff := ODObjectDiff identicalLeft: otherValue right: s.
+			| varNames |
+			varNames := self class allInstVarNames.
+			varNames
+				ifNotEmpty: [ varNames
+						do: [ :varName | 
+							| otherValue selfValue |
+							otherValue := anObject
+								instVarNamed: varName
+								ifAbsent: [ :name | nil ].
+							selfValue := self instVarNamed: varName.
+							selfValue
+								ifNil: [ otherValue
+										ifNotNil: [ :v | 
+											| diff |
+											diff := v odDiff: selfValue.
+											swap
+												ifTrue: [ diff := diff reversed ].
+											aDiff addDiff: diff at: varName ] ]
+								ifNotNil: [ :s | 
+									otherValue
+										ifNil: [ | diff |
+											diff := s odDiff: nil.
+											swap
+												ifFalse: [ diff := diff reversed ].
 											aDiff addDiff: diff at: varName ]
-										ifFalse: [ s = other
-												ifTrue: [ skipMatches
-														ifFalse: [ aDiff addMatch: s at: varName ] ]
-												ifFalse: [ | diff |
-													diff := s odDiff: other.
-													aDiff addDiff: diff at: varName ] ] ] ] ] ]
+										ifNotNil: [ :other | 
+											(s odIdenticalTo: otherValue)
+												ifTrue: [ | diff |
+													diff := ODObjectDiff identicalLeft: otherValue right: s.
+													aDiff addDiff: diff at: varName ]
+												ifFalse: [ s = other
+														ifTrue: [ skipMatches
+																ifFalse: [ aDiff addMatch: s at: varName ] ]
+														ifFalse: [ | diff |
+															diff := s odDiff: other.
+															aDiff addDiff: diff at: varName ] ] ] ] ] ] ]
 ]
 
 { #category : #'*Object-Diff' }
@@ -138,8 +141,10 @@ Object >> odIdenticalTo: anObject [
 	| result |
 	result := false.
 	anObject
-		ifNotNil: [ :o | 
-			self class allInstVarNames
+		ifNotNil: [ :o | | varNames |
+			varNames := 
+			self class allInstVarNames.
+			varNames ifEmpty: [ result := anObject = self ] ifNotEmpty: [ varNames
 				do: [ :varName | 
 					| otherValue selfValue |
 					otherValue := anObject
@@ -149,7 +154,7 @@ Object >> odIdenticalTo: anObject [
 					selfValue
 						ifNil: [ otherValue
 								ifNotNil: [ :v | result := otherValue odIdenticalTo: nil ] ]
-						ifNotNil: [ :s | result := s odIdenticalTo: otherValue ] ] ].
+						ifNotNil: [ :s | result := s odIdenticalTo: otherValue ] ] ] ].
 	^ result
 ]
 

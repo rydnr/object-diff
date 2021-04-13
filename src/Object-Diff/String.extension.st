@@ -85,7 +85,9 @@ String >> odIdenticalTo: anObject [
 { #category : #'*Object-Diff' }
 String >> odIdenticalToString: aString [
 	| result |
-	result := self odWildcardMatch .
-	result ifFalse: [ aString ifNotNil: [ result := aString odWildcardMatch ] ].
+	result := self odWildcardMatch.
+	result
+		ifFalse: [ aString
+				ifNotNil: [ :arg | result := arg odWildcardMatch or: [ arg = self ] ] ].
 	^ result
 ]

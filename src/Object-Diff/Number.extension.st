@@ -23,6 +23,16 @@ Number >> odDiffObject: anInstance [
 ]
 
 { #category : #'*Object-Diff' }
+Number >> odIdenticalToNumber: aNumber [
+	| result |
+	result := self odWildcardMatch.
+	result
+		ifFalse: [ aNumber
+				ifNotNil: [ :arg | result := arg odWildcardMatch or: [ arg = self ] ] ].
+	^ result
+]
+
+{ #category : #'*Object-Diff' }
 Number >> printNameOn: aWriteStream [
 	^ super printOn: aWriteStream
 ]
