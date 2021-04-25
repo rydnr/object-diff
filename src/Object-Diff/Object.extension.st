@@ -144,17 +144,20 @@ Object >> odIdenticalTo: anObject [
 		ifNotNil: [ :o | | varNames |
 			varNames := 
 			self class allInstVarNames.
-			varNames ifEmpty: [ result := anObject = self ] ifNotEmpty: [ varNames
-				do: [ :varName | 
-					| otherValue selfValue |
-					otherValue := anObject
-						instVarNamed: varName
-						ifAbsent: [ :name | nil ].
-					selfValue := self instVarNamed: varName.
-					selfValue
-						ifNil: [ otherValue
-								ifNotNil: [ :v | result := otherValue odIdenticalTo: nil ] ]
-						ifNotNil: [ :s | result := s odIdenticalTo: otherValue ] ] ] ].
+			result := varNames 
+				ifEmpty: [ anObject = self ]
+				ifNotEmpty: [
+					varNames
+						allSatisfy: [ :varName | 
+							| otherValue selfValue |
+							otherValue := anObject
+							instVarNamed: varName
+								ifAbsent: [ :name | nil ].
+							selfValue := self instVarNamed: varName.
+							selfValue
+								ifNil: [ otherValue
+									ifNotNil: [ :v | otherValue odIdenticalTo: nil ] ]
+								ifNotNil: [ :s | s odIdenticalTo: otherValue ] ] ] ].
 	^ result
 ]
 
