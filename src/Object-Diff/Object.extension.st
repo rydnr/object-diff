@@ -89,7 +89,7 @@ Object >> odDiffObject: anObject into: aDiff skipMatches: skipMatches swapLeftRi
 	anObject
 		ifNotNil: [ :o | 
 			| varNames |
-			varNames := self class allInstVarNames.
+			varNames := self class instVarNames.
 			varNames
 				ifNotEmpty: [ varNames
 						do: [ :varName | 
@@ -115,9 +115,11 @@ Object >> odDiffObject: anObject into: aDiff skipMatches: skipMatches swapLeftRi
 											aDiff addDiff: diff at: varName ]
 										ifNotNil: [ :other | 
 											(s odIdenticalTo: otherValue)
-												ifTrue: [ | diff |
-													diff := ODObjectDiff identicalLeft: otherValue right: s.
-													aDiff addDiff: diff at: varName ]
+												ifTrue: [ skipMatches
+														ifTrue: [ | diff |
+															diff := ODObjectDiff identicalLeft: otherValue right: s.
+															aDiff addDiff: diff at: varName ]
+														ifFalse: [ aDiff addMatch: s at: varName ] ]
 												ifFalse: [ s = other
 														ifTrue: [ skipMatches
 																ifFalse: [ aDiff addMatch: s at: varName ] ]
@@ -141,24 +143,29 @@ Object >> odIdenticalTo: anObject [
 	| result |
 	result := false.
 	anObject
-		ifNotNil: [ :o | | varNames |
-			varNames := 
-			self class allInstVarNames.
-			result := varNames 
+		ifNotNil: [ :o | 
+			| varNames |
+			varNames := self class instVarNames.
+			result := varNames
 				ifEmpty: [ anObject = self ]
-				ifNotEmpty: [
-					varNames
+				ifNotEmpty: [ varNames
 						allSatisfy: [ :varName | 
 							| otherValue selfValue |
 							otherValue := anObject
-							instVarNamed: varName
+								instVarNamed: varName
 								ifAbsent: [ :name | nil ].
 							selfValue := self instVarNamed: varName.
 							selfValue
 								ifNil: [ otherValue
-									ifNotNil: [ :v | otherValue odIdenticalTo: nil ] ]
+										ifNil: [ true ]
+										ifNotNil: [ :v | otherValue odIdenticalTo: nil ] ]
 								ifNotNil: [ :s | s odIdenticalTo: otherValue ] ] ] ].
 	^ result
+]
+
+{ #category : #'*Object-Diff' }
+Object >> odIdenticalToBlockClosure: anObject [
+	^ false
 ]
 
 { #category : #'*Object-Diff' }

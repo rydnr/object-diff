@@ -198,6 +198,14 @@ ODObjectDiffTest >> test_diff_same_class_different_instance [
 ]
 
 { #category : #tests }
+ODObjectDiffTest >> test_identical_BlockClosures [
+	| value diff |
+	value := [ :arg | ^ arg ].
+	diff := value odDiff: value.
+	self assert: diff identical
+]
+
+{ #category : #tests }
 ODObjectDiffTest >> test_identical_Objects [
 	| value diff |
 	value := ODDummyObject new.
