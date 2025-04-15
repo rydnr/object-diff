@@ -34,3 +34,4 @@ Pharo*.sources
 SqueakDebug.log
 # Squeak Smalltalk Debug log file
 # system image
+pharo-local/
