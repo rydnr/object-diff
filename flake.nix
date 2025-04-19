@@ -17,7 +17,7 @@
         org = "rydnr";
         repo = "object-diff";
         pname = "${repo}";
-        tag = "0.1.0";
+        tag = "0.1.1";
         baseline = "ObjectDiff";
         pkgs = import nixpkgs { inherit system; };
         description = "An object diff library in Pharo";
