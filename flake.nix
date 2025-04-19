@@ -5,8 +5,9 @@
     flake-utils.url = "github:numtide/flake-utils/v1.0.0";
     nixpkgs.url = "github:NixOS/nixpkgs/release-24.11";
     pharo-vm-12 = {
+      inputs.flake-utils.follows = "flake-utils";
       inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:rydnr/nix-flakes/pharo-vm-12.0.1519.2?dir=pharo-vm";
+      url = "github:rydnr/nix-flakes/pharo-vm-12.0.1519.4?dir=pharo-vm";
     };
   };
   outputs = inputs:
