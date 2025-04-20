@@ -32,7 +32,14 @@
         "type": "github"
       }
     },
-    "pharo-vm-12": {
+    "root": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs",
+        "rydnr-nix-flakes-pharo-vm": "rydnr-nix-flakes-pharo-vm"
+      }
+    },
+    "rydnr-nix-flakes-pharo-vm": {
       "inputs": {
         "flake-utils": [
           "flake-utils"
@@ -56,13 +63,6 @@
         "ref": "pharo-vm-12.0.1519.4",
         "repo": "nix-flakes",
         "type": "github"
-      }
-    },
-    "root": {
-      "inputs": {
-        "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs",
-        "pharo-vm-12": "pharo-vm-12"
       }
     }
   },
