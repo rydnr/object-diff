@@ -17,7 +17,7 @@
         org = "rydnr";
         repo = "object-diff";
         pname = "${repo}";
-        tag = "0.1.2";
+        tag = "0.1.3";
         baseline = "ObjectDiff";
         pkgs = import nixpkgs { inherit system; };
         description = "An object diff library in Pharo";
@@ -107,16 +107,16 @@
       in rec {
         defaultPackage = packages.default;
         devShells = rec {
-          default = rydnr-object-diff-12;
-          rydnr-object-diff-12 = shared.devShell-for {
+          default = object-diff-12;
+          object-diff-12 = shared.devShell-for {
             package = packages.rydnr-object-diff-12;
             inherit org pkgs repo tag;
             nixpkgs-release = nixpkgsRelease;
           };
         };
         packages = rec {
-          default = rydnr-object-diff-12;
-          rydnr-object-diff-12 = rydnr-object-diff-for rec {
+          default = object-diff-12;
+          object-diff-12 = rydnr-object-diff-for rec {
             bootstrap-image-url = rydnr-nix-flakes-pharo-vm.resources.${system}.bootstrap-image-url;
             bootstrap-image-sha256 = rydnr-nix-flakes-pharo-vm.resources.${system}.bootstrap-image-sha256;
             bootstrap-image-name = rydnr-nix-flakes-pharo-vm.resources.${system}.bootstrap-image-name;
